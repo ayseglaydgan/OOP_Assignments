@@ -2,7 +2,9 @@
 #include<vector>
 
 using namespace std;
-vector< vector<string> > create_board_4()
+
+// create fourth shape and return
+vector< vector<string> > createBoard_4()
 {
     vector<vector<string>> foo = 
     {
@@ -17,6 +19,7 @@ vector< vector<string> > create_board_4()
 return foo;
 }
 
+// move function
 void move(vector<vector<string>> &board, int i, int j, int direction)
 {
     string temp;
@@ -45,11 +48,13 @@ void move(vector<vector<string>> &board, int i, int j, int direction)
         board[i][j+1] = '.';
         board[i][j+2] = temp;        
     }
-    
-    
+
 }
-void print_board(const vector<vector<string>> &board)
+
+void printBoard(const vector<vector<string>> &board)
 {
+    int row_num = 1;
+
     cout << "  ";
     for(int i = 0; i < board.size(); ++i)
     {
@@ -57,27 +62,23 @@ void print_board(const vector<vector<string>> &board)
     }
     cout<<endl;
     
-    int counter = 1;
     for(const vector<string> board_1d: board)
     {
-        cout<< counter <<" ";
+        cout<< row_num <<" ";
         for(const string i: board_1d)
         {
             cout<<i;
         }
-        counter+=1;
+        row_num+=1;
         cout<<endl;
     }
 }
 
-
-
-
 int main()
 {
     vector<vector<string>> board;
-    board = create_board_4();
-    print_board(board);
+    board = createBoard_4();
+    printBoard(board);
     while (1)
     {
         int i, j, direction;
@@ -87,7 +88,7 @@ int main()
         cin>>direction;
         move(board,i,j,direction);
         cout<<"-----------------"<<endl;
-        print_board(board);
+        printBoard(board);
     }
     
 }
