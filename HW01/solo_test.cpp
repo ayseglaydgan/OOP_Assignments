@@ -9,7 +9,8 @@ using namespace std;
 // create first shape and return
 vector<vector<GAME>> createBoard_1()
 {
-    GAME P = GAME::P; // for showing more beautifull in board
+    //strong enum 
+    GAME P = GAME::P; 
     GAME D = GAME::DOT;
     GAME _ = GAME::BLANK;
     vector<vector<GAME>> board = 
@@ -28,7 +29,8 @@ vector<vector<GAME>> createBoard_1()
 // create second shape and return
 vector<vector<GAME>> createBoard_2()
 {
-    GAME P = GAME::P; // for showing more beautifull in board
+    //strong enum 
+    GAME P = GAME::P; 
     GAME D = GAME::DOT;
     GAME _ = GAME::BLANK;
     vector<vector<GAME>> board = 
@@ -49,7 +51,8 @@ vector<vector<GAME>> createBoard_2()
 // create third shape and return
 vector<vector<GAME>> createBoard_3()
 {
-    GAME P = GAME::P; // for showing more beautifull in board
+    //strong enum 
+    GAME P = GAME::P; 
     GAME D = GAME::DOT;
     GAME _ = GAME::BLANK;
     vector<vector<GAME>> board = 
@@ -69,7 +72,8 @@ vector<vector<GAME>> createBoard_3()
 // create fourth shape and return
 vector<vector<GAME>> createBoard_4()
 {
-    GAME P = GAME::P; // for showing more beautifull in board
+    //strong enum 
+    GAME P = GAME::P; 
     GAME D = GAME::DOT;
     GAME _ = GAME::BLANK;
     vector<vector<GAME>> board = 
@@ -88,7 +92,8 @@ vector<vector<GAME>> createBoard_4()
 // create fifth shape and return
 vector<vector<GAME>> createBoard_5()
 {
-    GAME P = GAME::P; // for showing more beautifull in board
+    //strong enum 
+    GAME P = GAME::P; 
     GAME D = GAME::DOT;
     GAME _ = GAME::BLANK;
     vector<vector<GAME>> board = 
@@ -109,7 +114,8 @@ vector<vector<GAME>> createBoard_5()
 // create sixth shape and return
 vector<vector<GAME>> createBoard_6()
 {
-    GAME P = GAME::P; // for showing more beautifull in board
+    //strong enum 
+    GAME P = GAME::P; 
     GAME D = GAME::DOT;
     GAME _ = GAME::BLANK;
     vector<vector<GAME>> board = 
@@ -155,26 +161,32 @@ bool isValidCommand(const int &board_length, const string &command)
 
 bool checkMove(const vector<vector<GAME>> &board, const char &direction, const int &i, const int &j)
 {
+    //checks the playing point is peg
     if(board[i][j] == GAME::DOT || board[i][j] == GAME::BLANK)
     {
         return false;
     }
+    //checks the exceptions for up direction
     else if (direction == 'U' && i - 2 >= 0 && board[i - 2][j] == GAME::DOT && board[i - 1][j] == GAME::P) 
     {
         return true;
     }
+    //checks the exceptions for down direction
     else if(direction == 'D' && (i + 2) < board.size() && board[i + 2][j] == GAME::DOT && board[i + 1][j] == GAME::P)
     {
         return true;
     }
+    //checks the exceptions for the left direction
     else if(direction == 'L' && (j - 2) >= 0 && board[i][j - 2] == GAME::DOT && board[i][j - 1] == GAME::P)
     {
         return true;
     }
+    //checks the exceptions for the right direction
     else if(direction == 'R' && (j + 2) < board.size() && board[i][j + 2] == GAME::DOT && board[i][j + 1] == GAME::P)
     {
         return true;
     }
+    //if non of the if bloks dont work then return false
     return false;
 
 }
@@ -189,6 +201,7 @@ int gameFinish(const vector<vector<GAME>> &board)
         {
             if (board[i][j] == GAME::P)
             {
+                //to calculate score
                 remaining_p++;
                 // check up
                 if (i - 2 >= 0 && board[i - 2][j] == GAME::DOT && board[i - 1][j] == GAME::P) return -1;
@@ -209,12 +222,14 @@ void printBoard(const vector<vector<GAME>> &board)
     int row_num = 1;
 
     cout << "  ";
+    //to adjust the coordinates
     for(int i = 0; i < board.size(); ++i)
     {
         cout<<char('A'+i);
     }
     cout<<endl;
     
+    //some lines of code by heart to adjust strong enum types
     for(const vector<GAME> board_1d: board)
     {
         cout<< row_num <<" ";
@@ -252,7 +267,9 @@ bool move(vector<vector<GAME>> &board, const string &command)
         return false;
     }
     
+    //if the move is valid
 
+    //SWAP according to direction
     GAME temp = board[i][j];
     if(direction == 'U') //UP
     {
@@ -264,7 +281,7 @@ bool move(vector<vector<GAME>> &board, const string &command)
     {
         board[i][j] = board[i+2][j];
         board[i+1][j] = GAME::DOT;
-        board[i+2][j] = temp;
+        board[i+2][j] = temp;   
     }
     else if (direction == 'L') //LEFT
     {
@@ -277,13 +294,9 @@ bool move(vector<vector<GAME>> &board, const string &command)
         board[i][j] = board[i][j+2];
         board[i][j+1] = GAME::DOT;
         board[i][j+2] = temp;        
-    } 
-    else 
-    {
-        // ! gerekirse en son sil
-        cout << "move da en son directionları gecti" << endl;
     }
 
+    //gameFinish returns the remaining peg, if it is not -1, that means there are still moves to play.
     int score = gameFinish(board);
     if (score != -1) 
     {
@@ -298,6 +311,8 @@ bool move(vector<vector<GAME>> &board, const string &command)
 
 int generateRandom(const int &min, const int &max)
 {
+    //some lines of code by heart to produce random numbers 
+    //probably it produces from hardware 
     int random = 0;
     std::random_device generator;
     std::mt19937 gen(generator());
@@ -312,6 +327,8 @@ string generateComputerCommand(const int &board_length)
     char first = char(generateRandom('A', 'A' + board_length - 1));
     char second = char(generateRandom('1', '1' + board_length - 1));
     char last = 0;
+
+    // to get the direction 
     switch (generateRandom(1, 4))
     {
     case 1:
