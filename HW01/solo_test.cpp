@@ -1,15 +1,70 @@
 #include<iostream>
 #include<vector>
 #include <random>
+#include "solo_test.h"
 
 using namespace std;
 
-enum class GAME 
+
+// create first shape and return
+vector<vector<GAME>> createBoard_1()
 {
-    DOT, 
-    P,
-    BLANK
-};
+    GAME P = GAME::P; // for showing more beautifull in board
+    GAME D = GAME::DOT;
+    GAME _ = GAME::BLANK;
+    vector<vector<GAME>> board = 
+    {
+        {_,_,P,P,P,_,_},
+        {_,P,P,P,P,P,_},
+        {P,P,P,D,P,P,P},
+        {P,P,P,P,P,P,P},
+        {P,P,P,P,P,P,P},
+        {_,P,P,P,P,P,_},
+        {_,_,P,P,P,_,_}
+    };
+    return board;
+}
+
+// create second shape and return
+vector<vector<GAME>> createBoard_2()
+{
+    GAME P = GAME::P; // for showing more beautifull in board
+    GAME D = GAME::DOT;
+    GAME _ = GAME::BLANK;
+    vector<vector<GAME>> board = 
+    {
+        {_,_,_,P,P,P,_,_,_},
+        {_,_,_,P,P,P,_,_,_},
+        {_,_,_,P,P,P,_,_,_},
+        {P,P,P,P,P,P,P,P,P},
+        {P,P,P,P,D,P,P,P,P},
+        {P,P,P,P,P,P,P,P,P},
+        {_,_,_,P,P,P,_,_,_},
+        {_,_,_,P,P,P,_,_,_},
+        {_,_,_,P,P,P,_,_,_}
+    };
+    return board;
+}
+
+// create third shape and return
+vector<vector<GAME>> createBoard_3()
+{
+    GAME P = GAME::P; // for showing more beautifull in board
+    GAME D = GAME::DOT;
+    GAME _ = GAME::BLANK;
+    vector<vector<GAME>> board = 
+    {
+        {_,_,P,P,P,_,_,_},
+        {_,_,P,P,P,_,_,_},
+        {_,_,P,P,P,_,_,_},
+        {P,P,P,P,P,P,P,P},
+        {P,P,P,D,P,P,P,P},
+        {P,P,P,P,P,P,P,P},
+        {_,_,P,P,P,_,_,_},
+        {_,_,P,P,P,_,_,_}
+    };
+    return board;
+}
 
 // create fourth shape and return
 vector<vector<GAME>> createBoard_4()
@@ -26,6 +81,44 @@ vector<vector<GAME>> createBoard_4()
         {P,P,P,P,P,P,P},
         {_,_,P,P,P,_,_},
         {_,_,P,P,P,_,_}
+    };
+    return board;
+}
+
+// create fifth shape and return
+vector<vector<GAME>> createBoard_5()
+{
+    GAME P = GAME::P; // for showing more beautifull in board
+    GAME D = GAME::DOT;
+    GAME _ = GAME::BLANK;
+    vector<vector<GAME>> board = 
+    {
+        {_,_,_,_,P,_,_,_,_},
+        {_,_,_,P,P,P,_,_,_},
+        {_,_,P,P,P,P,P,_,_},
+        {_,P,P,P,P,P,P,P,_},
+        {P,P,P,P,D,P,P,P,P},
+        {_,P,P,P,P,P,P,P,_},
+        {_,_,P,P,P,P,P,_,_},
+        {_,_,_,P,P,P,_,_,_},
+        {_,_,_,_,P,_,_,_,_},
+    };
+    return board;
+}
+
+// create sixth shape and return
+vector<vector<GAME>> createBoard_6()
+{
+    GAME P = GAME::P; // for showing more beautifull in board
+    GAME D = GAME::DOT;
+    GAME _ = GAME::BLANK;
+    vector<vector<GAME>> board = 
+    {
+        {_,_,D,_,_},
+         {_,P,P,_,_},
+        {_,P,P,P,_},
+         {P,P,P,P,_},
+        {P,P,P,P,P}
     };
     return board;
 }
@@ -245,21 +338,3 @@ string generateComputerCommand(const int &board_length)
     return command;
 }
 
-int main()
-{
-    vector<vector<GAME>> board;
-    board = createBoard_4();
-    printBoard(board);
-    int i = 0;
-    while (1)
-    {
-        string command = generateComputerCommand(board.size());
-        
-        
-        if (move(board, command) == 1)
-            break;
-        
-    }
-    printBoard(board);
-    
-}
