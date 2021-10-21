@@ -251,6 +251,7 @@ bool move(vector<vector<GAME>> &board, const string &command, const int &type)
         j = (command[0] - 'A');     //conversion to integer
         i = (command[1] - '0') - 1; //conversion to integer
     }
+    //if the command is not valid print invalid for human moves
     else
     {
         if (type == 1)
@@ -308,6 +309,14 @@ bool move(vector<vector<GAME>> &board, const string &command, const int &type)
     printBoard(board);
     return false;
 }
+// bool gameFinish6()
+// {
+
+// }
+// bool moveShape6()
+// {
+
+// }
 
 int generateRandom(const int &min, const int &max)
 {
