@@ -1,7 +1,11 @@
 target: hw1
 
 hw1: solo_test.cpp solo_test.h main.cpp
-	g++ -std=c++11 main.cpp solo_test.cpp  -o output
+	g++ -std=c++11 main.cpp solo_test.cpp -o output -S output
+	./output
+
+asm: solo_test.cpp solo_test.h main.cpp
+    g++ -std=c++11 main.cpp solo_test.cpp -S -o test.s
 	./output
 
 debug:

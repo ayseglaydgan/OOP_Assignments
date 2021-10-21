@@ -1,12 +1,12 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 #include <random>
 
 using namespace std;
 
-enum class GAME 
+enum class GAME
 {
-    DOT, 
+    DOT,
     P,
     BLANK
 };
@@ -31,9 +31,8 @@ int gameFinish(const vector<vector<GAME>> &board);
 
 void printBoard(const vector<vector<GAME>> &board);
 
-bool move(vector<vector<GAME>> &board, const string &command);
+bool move(vector<vector<GAME>> &board, const string &command, const int &type);
 
 int generateRandom(const int &min, const int &max);
 
 string generateComputerCommand(const int &board_length);
-
