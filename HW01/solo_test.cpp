@@ -20,7 +20,8 @@ vector<vector<GAME>> createBoard_1()
             {P, P, P, P, P, P, P},
             {P, P, P, P, P, P, P},
             {_, P, P, P, P, P, _},
-            {_, _, P, P, P, _, _}};
+            {_, _, P, P, P, _, _}
+        };
     return board;
 }
 
@@ -41,7 +42,8 @@ vector<vector<GAME>> createBoard_2()
             {P, P, P, P, P, P, P, P, P},
             {_, _, _, P, P, P, _, _, _},
             {_, _, _, P, P, P, _, _, _},
-            {_, _, _, P, P, P, _, _, _}};
+            {_, _, _, P, P, P, _, _, _}
+        };
     return board;
 }
 
@@ -61,7 +63,8 @@ vector<vector<GAME>> createBoard_3()
             {P, P, P, D, P, P, P, P},
             {P, P, P, P, P, P, P, P},
             {_, _, P, P, P, _, _, _},
-            {_, _, P, P, P, _, _, _}};
+            {_, _, P, P, P, _, _, _}
+        };
     return board;
 }
 
@@ -80,7 +83,8 @@ vector<vector<GAME>> createBoard_4()
             {P, P, P, D, P, P, P},
             {P, P, P, P, P, P, P},
             {_, _, P, P, P, _, _},
-            {_, _, P, P, P, _, _}};
+            {_, _, P, P, P, _, _}
+        };
     return board;
 }
 
@@ -115,11 +119,12 @@ vector<vector<GAME>> createBoard_6()
     GAME _ = GAME::BLANK;
     vector<vector<GAME>> board =
         {
-            {_, _, D, _, _},
-            {_, P, P, _, _},
-            {_, P, P, P, _},
-            {P, P, P, P, _},
-            {P, P, P, P, P}};
+            {_, _, _, _, D, _, _, _, _},
+            {_, _, _, P, _, P, _, _, _},
+            {_, _, P, _, P, _, P, _, _},
+            {_, P, _, P, _, P, _, P, _},
+            {P, _, P, _, P, _, P, _, P}
+        };
     return board;
 }
 
@@ -220,6 +225,7 @@ void printBoard(const vector<vector<GAME>> &board)
     for (int i = 0; i < board.size(); ++i)
     {
         cout << char('a' + i);
+        cout <<" ";
     }
     cout << endl;
 
