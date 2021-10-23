@@ -250,7 +250,7 @@ void printBoard(const vector<vector<GAME>> &board)
 }
 
 // move function
-bool playGame(vector<vector<GAME>> &board, const string &command, const int &player_type, const int &table_type)
+bool playGame(vector<vector<GAME>> &board, const string &command, const int &player_type, const int &table_type, int &move_count)
 {
     const int size = board.size();
     int command_type = isValidCommand(size, command);
@@ -266,7 +266,7 @@ bool playGame(vector<vector<GAME>> &board, const string &command, const int &pla
     {
         // TODO call save function
         cout << "Saveee" << endl;
-        saveGame(board,command);
+        saveGame(board,command,player_type,table_type, move_count);
         return false;
     }
     // load function
@@ -287,6 +287,7 @@ bool playGame(vector<vector<GAME>> &board, const string &command, const int &pla
         return false;
     }
 
+    move_count++;
     move(board, direction, i, j);
 
     //gameFinish returns the remaining peg, if it is not -1, that means there are still moves to play.
@@ -381,7 +382,7 @@ string generateComputerCommand(const int &board_length)
     return command;
 }
 
-void saveGame(const vector<vector<GAME>> &board, const string &command)
+void saveGame(const vector<vector<GAME>> &board, const string &command, const int &player_type, const int &table_type, const int &move_count)
 {
     string file_name = command.substr(5);
     ofstream fout;
@@ -392,6 +393,12 @@ void saveGame(const vector<vector<GAME>> &board, const string &command)
         cerr << "Can not create this file " << file_name << endl;
     }
 
+    // write player_type and table_type and move_count to table
+    fout << table_type << endl;
+    fout << player_type << endl;
+    fout << move_count << endl;
+
+    // write board info to file
     for (const vector<GAME> board_line: board )
     {
         for (const GAME i : board_line)

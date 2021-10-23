@@ -95,6 +95,8 @@ int main()
 
     // prevent previous commands
     cin.ignore();
+    
+    int move_count = 0;
 
     while (1)
     {
@@ -111,7 +113,7 @@ int main()
             command = generateComputerCommand(board.size());
         }
 
-        if (playGame(board, command, player_type) == 1)
+        if (playGame(board, command, player_type, table_type, move_count) == 1)
             break;
     }
     printBoard(board);
