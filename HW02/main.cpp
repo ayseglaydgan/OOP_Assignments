@@ -93,20 +93,25 @@ int main()
 
     printBoard(board);
 
+    // prevent previous commands
+    cin.ignore();
+
     while (1)
     {
         string command;
         if (player_type == 1)
         {
             cout << "Enter Command:";
-            cin >> command;
+            getline(cin, command);
+            
+            cout << "Your command:" << command << endl;
         }
         else if (player_type == 2)
         {
             command = generateComputerCommand(board.size());
         }
 
-        if (move(board, command, player_type) == 1)
+        if (playGame(board, command, player_type) == 1)
             break;
     }
     printBoard(board);

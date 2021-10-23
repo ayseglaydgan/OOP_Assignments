@@ -31,7 +31,7 @@ int gameFinish(const vector<vector<GAME>> &board);
 
 void printBoard(const vector<vector<GAME>> &board);
 
-bool move(vector<vector<GAME>> &board, const string &command, const int &type);
+bool playGame(vector<vector<GAME>> &board, const string &command, const int &type);
 
 int generateRandom(const int &min, const int &max);
 

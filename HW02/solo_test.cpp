@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <fstream>
 #include "solo_test.h"
 
 using namespace std;
@@ -123,28 +124,35 @@ vector<vector<GAME>> createBoard_6()
     return board;
 }
 
-bool isValidCommand(const int &board_length, const string &command)
+int isValidCommand(const int &board_length, const string &command)
 {
-    bool is_valid = true;
-    if (command.empty() || command.length() != 4)
+    int is_valid = 0;
+
+    // save load 
+    if (command.find("SAVE ") != std::string::npos)
+        return 1;
+    if (command.find("LOAD ") != std::string::npos)
+        return 2;
+    
+    else if (command.empty() || command.length() != 4)
     {
-        is_valid = false;
+        is_valid = -1;
     }
     else if (command[0] < 'A' || command[0] > 'A' + board_length - 1)
     {
-        is_valid = false;
+        is_valid = -1;
     }
     else if ((command[1] - '0') < 1 || (command[1] - '0') > board_length)
     {
-        is_valid = false;
+        is_valid = -1;
     }
     else if (command[2] != '-')
     {
-        is_valid = false;
+        is_valid = -1;
     }
     else if (command[3] != 'L' && command[3] != 'U' && command[3] != 'R' && command[3] != 'D')
     {
-        is_valid = false;
+        is_valid = -1;
     }
 
     return is_valid;
@@ -242,31 +250,63 @@ void printBoard(const vector<vector<GAME>> &board)
 }
 
 // move function
-bool move(vector<vector<GAME>> &board, const string &command, const int &type)
+bool playGame(vector<vector<GAME>> &board, const string &command, const int &player_type, const int &table_type)
 {
-    int i, j;
     const int size = board.size();
-    if (isValidCommand(size, command) == true) //if the command is valid
+    int command_type = isValidCommand(size, command);
+
+    if (command_type == -1) //if the command is invalid
     {
-        j = (command[0] - 'A');     //conversion to integer
-        i = (command[1] - '0') - 1; //conversion to integer
-    }
-    else
-    {
-        if (type == 1)
+        if (player_type == 1)
             cout << "Invalid command" << endl;
         return false;
+    } 
+    // save funciton
+    else if (command_type == 1)
+    {
+        // TODO call save function
+        cout << "Saveee" << endl;
+        saveGame(board,command);
+        return false;
     }
+    // load function
+    else if (command_type == 2)
+    {
+        cout << "Loadddd" << endl;
+        return false;
+        // TODO call load function
+    }
+
+    int i = (command[1] - '0') - 1; //conversion to integer
+    int j = (command[0] - 'A');     //conversion to integer
     char direction = command[3];
     if (!checkMove(board, direction, i, j))
     {
-        if (type == 1)
+        if (player_type == 1)
             cout << "Invalid direction" << endl;
         return false;
     }
 
-    //if the move is valid
+    move(board, direction, i, j);
 
+    //gameFinish returns the remaining peg, if it is not -1, that means there are still moves to play.
+    int score = gameFinish(board);
+    if (score != -1) // if game is not finished
+    {
+        cout << "Game is finished. Congrats" << endl;
+        cout << "Your score:" << score << endl;
+        return true;
+    }
+
+    if (player_type == 2)
+        cout << "Computer Movement:" << command << endl;
+
+    printBoard(board);
+    return false;
+}
+
+void move(vector<vector<GAME>> &board, const char &direction, const int &i, const int &j)
+{
     //SWAP according to direction
     GAME temp = board[i][j];
     if (direction == 'U') //UP
@@ -293,20 +333,6 @@ bool move(vector<vector<GAME>> &board, const string &command, const int &type)
         board[i][j + 1] = GAME::DOT;
         board[i][j + 2] = temp;
     }
-
-    //gameFinish returns the remaining peg, if it is not -1, that means there are still moves to play.
-    int score = gameFinish(board);
-    if (score != -1)
-    {
-        cout << "Game is finished. Congrats" << endl;
-        cout << "Your score:" << score << endl;
-        return true;
-    }
-    if (type == 2)
-        cout << "Computer Movement:" << command << endl;
-
-    printBoard(board);
-    return false;
 }
 
 int generateRandom(const int &min, const int &max)
@@ -353,4 +379,31 @@ string generateComputerCommand(const int &board_length)
     command.push_back(last);
 
     return command;
+}
+
+void saveGame(const vector<vector<GAME>> &board, const string &command)
+{
+    string file_name = command.substr(5);
+    ofstream fout;
+    fout.open(file_name);
+
+    if (!fout.is_open())
+    {
+        cerr << "Can not create this file " << file_name << endl;
+    }
+
+    for (const vector<GAME> board_line: board )
+    {
+        for (const GAME i : board_line)
+        {
+            if (i == GAME::DOT)
+                fout << ".";
+            if (i == GAME::P)
+                fout << "P";
+            if (i == GAME::BLANK)
+                fout << " ";
+        } 
+        fout<<endl;    
+    }
+    fout.close();
 }
