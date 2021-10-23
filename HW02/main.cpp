@@ -60,7 +60,7 @@ int main()
             break;
 
         default:
-            cout << "Invalid input" << endl;
+            cerr << "Invalid input" << endl;
             break;
         }
     }
@@ -86,7 +86,7 @@ int main()
             break;
 
         default:
-            cout << "Invalid input" << endl;
+            cerr << "Invalid input" << endl;
             break;
         }
     }
@@ -113,7 +113,7 @@ int main()
             command = generateComputerCommand(board.size());
         }
 
-        if (playGame(board, command, player_type, table_type, move_count) == 1)
+        if (playGame(board, command, move_count, player_type, table_type) == 1)
             break;
     }
     printBoard(board);

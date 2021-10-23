@@ -235,7 +235,7 @@ void printBoard(const vector<vector<GAME>> &board)
     for (const vector<GAME> board_1d : board)
     {
         cout << row_num << " ";
-        for (const GAME i : board_1d)
+        for (const auto i : board_1d)
         {
             if (i == GAME::DOT)
                 cout << ".";
@@ -250,7 +250,7 @@ void printBoard(const vector<vector<GAME>> &board)
 }
 
 // move function
-bool playGame(vector<vector<GAME>> &board, const string &command, const int &player_type, const int &table_type, int &move_count)
+bool playGame(vector<vector<GAME>> &board, const string &command, int &move_count, const int &player_type, const int &table_type)
 {
     const int size = board.size();
     int command_type = isValidCommand(size, command);
@@ -258,7 +258,7 @@ bool playGame(vector<vector<GAME>> &board, const string &command, const int &pla
     if (command_type == -1) //if the command is invalid
     {
         if (player_type == 1)
-            cout << "Invalid command" << endl;
+            cerr << "Invalid command" << endl;
         return false;
     } 
     // save funciton
@@ -278,12 +278,14 @@ bool playGame(vector<vector<GAME>> &board, const string &command, const int &pla
     }
 
     int i = (command[1] - '0') - 1; //conversion to integer
-    int j = (command[0] - 'A');     //conversion to integer
+    // decltype used here
+    decltype(i) j = (command[0] - 'A');     //conversion to integer
     char direction = command[3];
+
     if (!checkMove(board, direction, i, j))
     {
         if (player_type == 1)
-            cout << "Invalid direction" << endl;
+            cerr << "Invalid direction" << endl;
         return false;
     }
 
@@ -291,7 +293,7 @@ bool playGame(vector<vector<GAME>> &board, const string &command, const int &pla
     move(board, direction, i, j);
 
     //gameFinish returns the remaining peg, if it is not -1, that means there are still moves to play.
-    int score = gameFinish(board);
+    auto score = gameFinish(board);
     if (score != -1) // if game is not finished
     {
         cout << "Game is finished. Congrats" << endl;

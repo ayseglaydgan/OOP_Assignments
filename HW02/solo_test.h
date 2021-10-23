@@ -31,7 +31,7 @@ int gameFinish(const vector<vector<GAME>> &board);
 
 void printBoard(const vector<vector<GAME>> &board);
 
-bool playGame(vector<vector<GAME>> &board, const string &command, const int &type, const int &table_type, int &move_count);
+bool playGame(vector<vector<GAME>> &board, const string &command, int &move_count, const int &player_type = 1, const int &table_type = 1);
 
 void move(vector<vector<GAME>> &board, const char &direction, const int &i, const int &j);
 
