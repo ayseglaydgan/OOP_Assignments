@@ -19,8 +19,16 @@ int main()
         cout << "See all shapes by typing 0" << endl;
         cout << "Enter command:";
         cin >> table_type;
+        if (cin.fail())
+        {
+            cerr << "Your input is invalid" << endl;
+            cin.clear();
+            cin.ignore(100, '\n');
+            continue;
+        }
         switch (table_type)
         {
+
         case 0:
             cout << "Shape 1" << endl;
             printBoard(createBoard_1());
@@ -75,6 +83,13 @@ int main()
              << "2-Computer" << endl;
         cout << "Enter Command:";
         cin >> player_type;
+        if (cin.fail())
+        {
+            cerr << "Your input is invalid" << endl;
+            cin.clear();
+            cin.ignore(100, '\n');
+            continue;
+        }
         switch (player_type)
         {
         case 1:
