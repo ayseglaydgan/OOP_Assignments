@@ -110,7 +110,6 @@ int main()
         }
         else if (player_type == 2)
         {
-            kacKere++;
             command = generateComputerCommand(board);
         }
 
