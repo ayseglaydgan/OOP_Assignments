@@ -138,6 +138,7 @@ int isValidCommand(const int &board_length, const string &command)
     {
         is_valid = -1;
     }
+    // check for second parameter is number
     else if (command[1] - '0' > 9)
     {
         is_valid = -1;
@@ -164,7 +165,9 @@ int isValidCommand(const int &board_length, const string &command)
 
 bool checkMove(const vector<vector<GAME>> &board, const char &direction, const int &i, const int &j)
 {
+    // take longest line for arbitrary boards
     const int size = longestLine(board);
+
     //checks the playing point is peg
     if (board[i][j] == GAME::DOT || board[i][j] == GAME::BLANK)
     {
@@ -261,6 +264,8 @@ void printBoard(const vector<vector<GAME>> &board)
 bool playGame(vector<vector<GAME>> &board, const string &command, int &move_count, int &player_type, int &table_type)
 {
     const int size = longestLine(board);
+
+    // use command type to determine SAVE || LOAD or normal command || invalid
     int command_type = isValidCommand(size, command);
 
     if (command_type == -1) //if the command is invalid
@@ -391,7 +396,11 @@ string generateComputerCommand(const vector<vector<GAME>> &board)
 
 void saveGame(const vector<vector<GAME>> &board, const string &command, const int &player_type, const int &table_type, const int &move_count)
 {
+    // take file name from command
+    // SAVE filename.txt for example
     string file_name = command.substr(5);
+
+    // create new file pointer named fout
     ofstream fout;
     fout.open(file_name);
 
@@ -457,13 +466,14 @@ void loadGame(vector<vector<GAME>> &board, const string &command, int &player_ty
                 board_read[board_read.size() - 1].push_back(GAME::DOT);
             else if (element == 'P')
                 board_read[board_read.size() - 1].push_back(GAME::P);
-            else
+            else // if char is not P or ".", assume that it is a blank point
                 board_read[board_read.size() - 1].push_back(GAME::BLANK);
         }
     }
 
     fin.close();
 
+    // assign read board to original board
     board = board_read;
 
     cout << "Game loaded from " << file_name << " successfully" << endl;

@@ -19,6 +19,8 @@ int main()
         cout << "See all shapes by typing 0" << endl;
         cout << "Enter command:";
         cin >> table_type;
+
+        // fix invalid input (ex: string enterd instead of integer)
         if (cin.fail())
         {
             cerr << "Your input is invalid" << endl;
@@ -83,6 +85,8 @@ int main()
              << "2-Computer" << endl;
         cout << "Enter Command:";
         cin >> player_type;
+
+        // fix invalid input (ex: string enterd instead of integer)
         if (cin.fail())
         {
             cerr << "Your input is invalid" << endl;
@@ -116,14 +120,15 @@ int main()
     while (1)
     {
         string command;
-        if (player_type == 1)
+        if (player_type == 1) // player
         {
             cout << "Enter Command:";
+
             // take whole line
             // used for (SAVE FILE.txt or LOAD FILE.txt)
             getline(cin, command);
         }
-        else if (player_type == 2)
+        else if (player_type == 2) // computer
         {
             command = generateComputerCommand(board);
         }
