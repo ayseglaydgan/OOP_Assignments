@@ -95,7 +95,7 @@ int main()
 
     // prevent previous commands
     cin.ignore();
-    
+
     int move_count = 0;
 
     while (1)
@@ -104,13 +104,14 @@ int main()
         if (player_type == 1)
         {
             cout << "Enter Command:";
+            // take whole line
+            // used for (SAVE FILE.txt or LOAD FILE.txt)
             getline(cin, command);
-            
-            cout << "Your command:" << command << endl;
         }
         else if (player_type == 2)
         {
-            command = generateComputerCommand(board.size());
+            kacKere++;
+            command = generateComputerCommand(board);
         }
 
         if (playGame(board, command, move_count, player_type, table_type) == 1)

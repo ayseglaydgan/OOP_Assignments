@@ -31,12 +31,18 @@ int gameFinish(const vector<vector<GAME>> &board);
 
 void printBoard(const vector<vector<GAME>> &board);
 
-bool playGame(vector<vector<GAME>> &board, const string &command, int &move_count, const int &player_type = 1, const int &table_type = 1);
+bool playGame(vector<vector<GAME>> &board, const string &command, int &move_count, int &player_type, int &table_type);
 
 void move(vector<vector<GAME>> &board, const char &direction, const int &i, const int &j);
 
 int generateRandom(const int &min, const int &max);
 
-string generateComputerCommand(const int &board_length);
+string generateComputerCommand(const vector<vector<GAME>> &board);
 
-void saveGame(const vector<vector<GAME>> &board, const string &command, const int &player_type, const int &table_type, const int &move_count);
+void saveGame(const vector<vector<GAME>> &board, const string &command, const int &player_type = 1, const int &table_type = 1, const int &move_count = 0);
+
+void loadGame(vector<vector<GAME>> &board, const string &command, int &player_type, int &table_type, int &move_count);
+
+// helper function for determining the longest row of the board
+// it used for arbitrary boards
+int longestLine(const vector<vector<GAME>> &board);

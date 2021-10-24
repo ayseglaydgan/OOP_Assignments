@@ -128,13 +128,17 @@ int isValidCommand(const int &board_length, const string &command)
 {
     int is_valid = 0;
 
-    // save load 
+    // save load
     if (command.find("SAVE ") != std::string::npos)
         return 1;
     if (command.find("LOAD ") != std::string::npos)
         return 2;
-    
+
     else if (command.empty() || command.length() != 4)
+    {
+        is_valid = -1;
+    }
+    else if (command[1] - '0' > 9)
     {
         is_valid = -1;
     }
@@ -160,6 +164,7 @@ int isValidCommand(const int &board_length, const string &command)
 
 bool checkMove(const vector<vector<GAME>> &board, const char &direction, const int &i, const int &j)
 {
+    const int size = longestLine(board);
     //checks the playing point is peg
     if (board[i][j] == GAME::DOT || board[i][j] == GAME::BLANK)
     {
@@ -181,7 +186,7 @@ bool checkMove(const vector<vector<GAME>> &board, const char &direction, const i
         return true;
     }
     //checks the exceptions for the right direction
-    else if (direction == 'R' && (j + 2) < board.size() && board[i][j + 2] == GAME::DOT && board[i][j + 1] == GAME::P)
+    else if (direction == 'R' && (j + 2) < size && board[i][j + 2] == GAME::DOT && board[i][j + 1] == GAME::P)
     {
         return true;
     }
@@ -223,9 +228,12 @@ void printBoard(const vector<vector<GAME>> &board)
 {
     int row_num = 1;
 
+    // determine the longest line to write all rows
+    int longest_line = longestLine(board);
+
     cout << "  ";
     //to adjust the coordinates
-    for (int i = 0; i < board.size(); ++i)
+    for (int i = 0; i < longest_line; ++i)
     {
         cout << char('a' + i);
     }
@@ -250,9 +258,9 @@ void printBoard(const vector<vector<GAME>> &board)
 }
 
 // move function
-bool playGame(vector<vector<GAME>> &board, const string &command, int &move_count, const int &player_type, const int &table_type)
+bool playGame(vector<vector<GAME>> &board, const string &command, int &move_count, int &player_type, int &table_type)
 {
-    const int size = board.size();
+    const int size = longestLine(board);
     int command_type = isValidCommand(size, command);
 
     if (command_type == -1) //if the command is invalid
@@ -260,26 +268,23 @@ bool playGame(vector<vector<GAME>> &board, const string &command, int &move_coun
         if (player_type == 1)
             cerr << "Invalid command" << endl;
         return false;
-    } 
+    }
     // save funciton
     else if (command_type == 1)
     {
-        // TODO call save function
-        cout << "Saveee" << endl;
-        saveGame(board,command,player_type,table_type, move_count);
+        saveGame(board, command, player_type, table_type, move_count);
         return false;
     }
     // load function
     else if (command_type == 2)
     {
-        cout << "Loadddd" << endl;
+        loadGame(board, command, player_type, table_type, move_count);
         return false;
-        // TODO call load function
     }
 
     int i = (command[1] - '0') - 1; //conversion to integer
     // decltype used here
-    decltype(i) j = (command[0] - 'A');     //conversion to integer
+    decltype(i) j = (command[0] - 'A'); //conversion to integer
     char direction = command[3];
 
     if (!checkMove(board, direction, i, j))
@@ -350,11 +355,11 @@ int generateRandom(const int &min, const int &max)
     return random;
 }
 
-string generateComputerCommand(const int &board_length)
+string generateComputerCommand(const vector<vector<GAME>> &board)
 {
     string command = "";
-    char first = char(generateRandom('A', 'A' + board_length - 1));
-    char second = char(generateRandom('1', '1' + board_length - 1));
+    char first = char(generateRandom('A', 'A' + longestLine(board) - 1));
+    char second = char(generateRandom('1', '1' + board.size() - 1));
     char last = 0;
 
     // to get the direction
@@ -393,6 +398,7 @@ void saveGame(const vector<vector<GAME>> &board, const string &command, const in
     if (!fout.is_open())
     {
         cerr << "Can not create this file " << file_name << endl;
+        return;
     }
 
     // write player_type and table_type and move_count to table
@@ -401,7 +407,7 @@ void saveGame(const vector<vector<GAME>> &board, const string &command, const in
     fout << move_count << endl;
 
     // write board info to file
-    for (const vector<GAME> board_line: board )
+    for (const vector<GAME> board_line : board)
     {
         for (const GAME i : board_line)
         {
@@ -411,8 +417,77 @@ void saveGame(const vector<vector<GAME>> &board, const string &command, const in
                 fout << "P";
             if (i == GAME::BLANK)
                 fout << " ";
-        } 
-        fout<<endl;    
+        }
+        fout << endl;
     }
     fout.close();
+
+    cout << "Game saved to " << file_name << " successfully" << endl;
+}
+
+void loadGame(vector<vector<GAME>> &board, const string &command, int &player_type, int &table_type, int &move_count)
+{
+    vector<vector<GAME>> board_read;
+    string file_name = command.substr(5);
+    ifstream fin;
+    fin.open(file_name);
+
+    if (!fin.is_open())
+    {
+        cerr << "Can not create this file " << file_name << endl;
+        return;
+    }
+
+    // write player_type and table_type and move_count to table
+    fin >> table_type;
+    fin >> player_type;
+    fin >> move_count;
+
+    string line;
+
+    // ignore last empty character
+    fin.ignore();
+
+    while (getline(fin, line))
+    {
+        board_read.push_back(vector<GAME>());
+        for (const char element : line)
+        {
+            if (element == '.')
+                board_read[board_read.size() - 1].push_back(GAME::DOT);
+            else if (element == 'P')
+                board_read[board_read.size() - 1].push_back(GAME::P);
+            else
+                board_read[board_read.size() - 1].push_back(GAME::BLANK);
+        }
+    }
+
+    fin.close();
+
+    board = board_read;
+
+    cout << "Game loaded from " << file_name << " successfully" << endl;
+    cout << "Game Shape Number:" << table_type << endl;
+    cout << "Game Type:";
+    if (player_type == 1)
+        cout << "Player" << endl;
+    else
+        cout << "Computer" << endl;
+    cout << "Move count" << move_count << endl;
+
+    cout << "Game Table:" << endl;
+    printBoard(board);
+}
+
+// helper function for determining the longest row of the board
+// it used for arbitrary boards
+int longestLine(const vector<vector<GAME>> &board)
+{
+    int longest_line = 0;
+    for (int i = 0; i < board.size(); i++)
+    {
+        if (board[i].size() > longest_line)
+            longest_line = board[i].size();
+    }
+    return longest_line;
 }
