@@ -47,6 +47,7 @@ private:
     void initBoard(const vector<vector<GAME>> &temp_board);
     int longestLine();
     int isValidCommand();
+    bool checkMove();
     // Create board functions 
     void createBoard_1();
     void createBoard_2();
@@ -69,7 +70,7 @@ class PegSolitaire::Cell
         void setGame(const GAME &state);
         int getRow();
         int getColumn();
-        GAME getGame();
+        GAME getState();
 
     private:
         GAME state;
@@ -94,4 +95,4 @@ inline int PegSolitaire::Cell::getRow() { return row; }
 
 inline int PegSolitaire::Cell::getColumn() { return column; }
 
-inline GAME PegSolitaire::Cell::getGame() { return state; }
+inline GAME PegSolitaire::Cell::getState() { return state; }

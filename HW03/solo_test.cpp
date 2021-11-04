@@ -87,11 +87,11 @@ void PegSolitaire::printBoard()
         cout << row_num << " ";
         for (Cell cell : board_1d)
         {
-            if (cell.getGame() == GAME::DOT)
+            if (cell.getState() == GAME::DOT)
                 cout << ".";
-            if (cell.getGame() == GAME::P)
+            if (cell.getState() == GAME::P)
                 cout << "P";
-            if (cell.getGame() == GAME::BLANK)
+            if (cell.getState() == GAME::BLANK)
                 cout << " ";
         }
         row_num += 1;
@@ -234,21 +234,14 @@ void PegSolitaire::initBoard(const vector<vector<GAME>> &temp_board)
     } 
 }
 
-PegSolitaire::Cell::Cell()
+void PegSolitaire::setCommand(const string& _command)
 {
-    state = GAME::BLANK;
-    column = 0;
-    row = 0;
-    
+    command_i = (command[1] - '0') - 1; //conversion to integer
+    command_j = (command[0] - 'A'); //conversion to integer
+    command_direction = command[3];
 }
 
-PegSolitaire::Cell::Cell(const int &_row, const int &_column, const GAME &_state)
-{
-    row = _row;
-    column = _column;
-    state = _state;  
-}
-
+// Pegsolitare functions 
 
 int PegSolitaire::isValidCommand()
 {
@@ -290,13 +283,42 @@ int PegSolitaire::isValidCommand()
     return is_valid;
 }
 
-void PegSolitaire::setCommand(const string& _command)
+bool PegSolitaire::checkMove()
 {
-    command_i = (command[1] - '0') - 1; //conversion to integer
-    command_j = (command[0] - 'A'); //conversion to integer
-    command_direction = command[3];
-}
+    // take longest line for arbitrary boards
+    const int size = longestLine();
+    int i = command_i;
+    int j = command_j;
+    char direction = command_direction;
 
+    //checks the playing point is peg
+    if (board[i][j].getState() == GAME::DOT || board[i][j].getState() == GAME::BLANK)
+    {
+        return false;
+    }
+    //checks the exceptions for up direction
+    else if (direction == 'U' && i - 2 >= 0 && board[i - 2][j].getState() == GAME::DOT && board[i - 1][j].getState() == GAME::P)
+    {
+        return true;
+    }
+    //checks the exceptions for down direction
+    else if (direction == 'D' && (i + 2) < board.size() && board[i + 2][j].getState() == GAME::DOT && board[i + 1][j].getState() == GAME::P)
+    {
+        return true;
+    }
+    //checks the exceptions for the left direction
+    else if (direction == 'L' && (j - 2) >= 0 && board[i][j - 2].getState() == GAME::DOT && board[i][j - 1].getState() == GAME::P)
+    {
+        return true;
+    }
+    //checks the exceptions for the right direction
+    else if (direction == 'R' && (j + 2) < size && board[i][j + 2].getState() == GAME::DOT && board[i][j + 1].getState() == GAME::P)
+    {
+        return true;
+    }
+    //if non of the if bloks dont work then return false
+    return false;
+}
 
 bool PegSolitaire::playGame()
 {
@@ -357,4 +379,21 @@ bool PegSolitaire::playGame()
 
     printBoard();
     return false;
+}
+
+// cell consturctors
+
+PegSolitaire::Cell::Cell()
+{
+    state = GAME::BLANK;
+    column = 0;
+    row = 0;
+    
+}
+
+PegSolitaire::Cell::Cell(const int &_row, const int &_column, const GAME &_state)
+{
+    row = _row;
+    column = _column;
+    state = _state;  
 }
