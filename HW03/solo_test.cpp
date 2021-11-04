@@ -5,8 +5,11 @@
 using namespace std;
 
 //if the type of the board is not indicated, create board 4
+// if default consturctor used, play as computer
 PegSolitaire::PegSolitaire()
 {
+    player_type = 0;
+    board_type = 4;
     createBoard_4();
 }
 
@@ -30,6 +33,32 @@ PegSolitaire::PegSolitaire(int type)
         cerr << "Board 4 assumed as a board type" << endl;
         createBoard_4();
     }
+    board_type = type;
+    player_type = 1;
+}
+
+PegSolitaire::PegSolitaire(int _board_type, int _player_type)
+{
+    if(_board_type == 1)
+        createBoard_1();
+    else if(_board_type == 2)
+        createBoard_2();
+    else if(_board_type == 3)
+        createBoard_3();
+    else if(_board_type == 4)
+        createBoard_4();
+    else if(_board_type == 5)
+        createBoard_5();
+    else if(_board_type == 6)
+        createBoard_6();
+    else
+    {
+        cerr << "Invalid board type" << endl;
+        cerr << "Board 4 assumed as a board type" << endl;
+        createBoard_4();
+    }
+    board_type = _board_type;
+    player_type = _player_type;
 }
 
 vector<vector<PegSolitaire::Cell>> PegSolitaire::getBoard()
@@ -220,3 +249,112 @@ PegSolitaire::Cell::Cell(const int &_row, const int &_column, const GAME &_state
     state = _state;  
 }
 
+
+int PegSolitaire::isValidCommand()
+{
+    int size = longestLine();
+    int is_valid = 0;
+
+    // save load
+    if (command.find("SAVE ") != std::string::npos)
+        return 1;
+    if (command.find("LOAD ") != std::string::npos)
+        return 2;
+
+    else if (command.empty() || command.length() != 4)
+    {
+        is_valid = -1;
+    }
+    // check for second parameter is number
+    else if (command[1] - '0' > 9)
+    {
+        is_valid = -1;
+    }
+    else if (command[0] < 'A' || command[0] > 'A' + size - 1)
+    {
+        is_valid = -1;
+    }
+    else if ((command[1] - '0') < 1 || (command[1] - '0') > size)
+    {
+        is_valid = -1;
+    }
+    else if (command[2] != '-')
+    {
+        is_valid = -1;
+    }
+    else if (command[3] != 'L' && command[3] != 'U' && command[3] != 'R' && command[3] != 'D')
+    {
+        is_valid = -1;
+    }
+
+    return is_valid;
+}
+
+void PegSolitaire::setCommand(const string& _command)
+{
+    command_i = (command[1] - '0') - 1; //conversion to integer
+    command_j = (command[0] - 'A'); //conversion to integer
+    command_direction = command[3];
+}
+
+
+bool PegSolitaire::playGame()
+{
+    const int size = longestLine();
+
+    // use command type to determine SAVE || LOAD or normal command || invalid
+    int command_type = isValidCommand();
+
+    if (command_type == -1) //if the command is invalid
+    {
+        if (player_type== 1)
+            cerr << "Invalid command" << endl;
+        return false;
+    }
+    // save funciton
+    else if (command_type == 1)
+    {
+        cout << "SAVE" << endl;
+        // TODO
+        // saveGame();
+        return false;
+    }
+    // load function
+    else if (command_type == 2)
+    {
+        cout << "LOAD" << endl;
+        // TODO
+        // loadGame();
+        return false;
+    }
+
+    // TODO
+    // if (!checkMove())
+    // {
+    //     if (player_type == 1)
+    //         cerr << "Invalid direction" << endl;
+    //     return false;
+    // }
+
+    move_count++;
+
+    // TODO
+    // move();
+
+    //gameFinish returns the remaining peg, if it is not -1, that means there are still moves to play.
+    auto score = 0;
+    // TODO
+    // score = gameFinish();
+    if (score != -1) // if game is not finished
+    {
+        cout << "Game is finished. Congrats" << endl;
+        cout << "Your score:" << score << endl;
+        return true;
+    }
+
+    if (player_type == 2)
+        cout << "Computer Movement:" << command << endl;
+
+    printBoard();
+    return false;
+}

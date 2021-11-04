@@ -14,7 +14,8 @@ class PegSolitaire
 {
 public:
     PegSolitaire();
-    PegSolitaire(int size);
+    PegSolitaire(int type);
+    PegSolitaire(int board_type, int player_type);
     class Cell;
     
     void printBoard();
@@ -22,14 +23,30 @@ public:
 
 
     vector<vector<Cell>> getBoard();
+
+    int getPlayer();
+    void setPlayer(const int& player_type);
+    
+    bool playGame();
+
+    void setCommand(const string& command);
     
 private:
     vector<vector<Cell>> board;
 
+    int board_type;
+    int player_type;
+    int move_count = 0;
+    string command;
+    int command_i;
+    // decltype used here
+    decltype(command_i) command_j;
+    char command_direction;
+
     // helper functions
     void initBoard(const vector<vector<GAME>> &temp_board);
     int longestLine();
-    
+    int isValidCommand();
     // Create board functions 
     void createBoard_1();
     void createBoard_2();
@@ -59,6 +76,12 @@ class PegSolitaire::Cell
         int column;
         int row;
 };
+
+// Inline functions for Pegsolitare class
+inline void PegSolitaire::setPlayer(const int& _player) {player_type = _player;}
+inline int PegSolitaire::getPlayer() {return player_type;}
+
+
 
 //Inline functions from Cell class
 inline void PegSolitaire::Cell::setRow(const int &_row) { row = _row; }
