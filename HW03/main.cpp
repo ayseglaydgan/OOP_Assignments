@@ -8,7 +8,8 @@ int main()
 {
     PegSolitaire _game;
     
-    _game.createBoard_1();
+
+    _game = PegSolitaire(4);
 
     _game.printBoard();
 }

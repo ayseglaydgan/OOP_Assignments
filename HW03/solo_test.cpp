@@ -4,13 +4,32 @@
 
 using namespace std;
 
+//if the type of the board is not indicated, create board 4
 PegSolitaire::PegSolitaire()
 {
+    createBoard_4();
 }
 
-PegSolitaire::PegSolitaire(int size)
+PegSolitaire::PegSolitaire(int type)
 {
-    
+    if(type == 1)
+        createBoard_1();
+    else if(type == 2)
+        createBoard_2();
+    else if(type == 3)
+        createBoard_3();
+    else if(type == 4)
+        createBoard_4();
+    else if(type == 5)
+        createBoard_5();
+    else if(type == 6)
+        createBoard_6();
+    else
+    {
+        cerr << "Invalid board type" << endl;
+        cerr << "Board 4 assumed as a board type" << endl;
+        createBoard_4();
+    }
 }
 
 vector<vector<PegSolitaire::Cell>> PegSolitaire::getBoard()
@@ -78,7 +97,7 @@ void PegSolitaire::createBoard_1()
             {P, P, P, P, P, P, P},
             {_, P, P, P, P, P, _},
             {_, _, P, P, P, _, _}};
-    assignBoard(temp);
+    initBoard(temp);
 }
 
 void PegSolitaire::createBoard_2()
@@ -97,7 +116,7 @@ void PegSolitaire::createBoard_2()
             {_, _, _, P, P, P, _, _, _},
             {_, _, _, P, P, P, _, _, _},
             {_, _, _, P, P, P, _, _, _}};
-    assignBoard(temp);
+    initBoard(temp);
 }
 
 void PegSolitaire::createBoard_3()
@@ -116,8 +135,9 @@ void PegSolitaire::createBoard_3()
             {P, P, P, P, P, P, P, P},
             {_, _, P, P, P, _, _, _},
             {_, _, P, P, P, _, _, _}};
-    assignBoard(temp);
+    initBoard(temp);
 }
+
 void PegSolitaire::createBoard_4()
 {
     //strong enum
@@ -133,8 +153,9 @@ void PegSolitaire::createBoard_4()
             {P, P, P, P, P, P, P},
             {_, _, P, P, P, _, _},
             {_, _, P, P, P, _, _}};
-    assignBoard(temp);
+    initBoard(temp);
 }
+
 void PegSolitaire::createBoard_5()
 {
     //strong enum
@@ -152,8 +173,9 @@ void PegSolitaire::createBoard_5()
             {_, _, P, P, P, P, P, _, _},
             {_, _, _, P, P, P, _, _, _},
             {_, _, _, _, P, _, _, _, _}};
-    assignBoard(temp);
+    initBoard(temp);
 }
+
 void PegSolitaire::createBoard_6()
 {
     //strong enum
@@ -167,9 +189,10 @@ void PegSolitaire::createBoard_6()
             {_, P, P, P, _},
             {P, P, P, P, _},
             {P, P, P, P, P}};
-    assignBoard(temp);
+    initBoard(temp);
 }
-void PegSolitaire::assignBoard(const vector<vector<GAME>> &temp_board)
+
+void PegSolitaire::initBoard(const vector<vector<GAME>> &temp_board)
 {
     for (int i = 0; i < temp_board.size(); ++i)
     {
@@ -192,39 +215,8 @@ PegSolitaire::Cell::Cell()
 
 PegSolitaire::Cell::Cell(const int &_row, const int &_column, const GAME &_state)
 {
-    
     row = _row;
     column = _column;
-    state = _state;
-    
+    state = _state;  
 }
 
-void PegSolitaire::Cell::setRow(const int &_row)
-{
-    row = _row;
-}
-
-void PegSolitaire::Cell::setColumn(const int &_column)
-{
-    column = _column;
-}
-
-void PegSolitaire::Cell::setGame(const GAME &_state)
-{
-    state = _state;
-}
-
-int PegSolitaire::Cell::getRow()
-{
-    return row;
-}
-
-int PegSolitaire::Cell::getColumn()
-{
-    return column;
-}
-
-GAME PegSolitaire::Cell::getGame()
-{
-    return state;
-}

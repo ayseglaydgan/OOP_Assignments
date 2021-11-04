@@ -19,6 +19,17 @@ public:
     
     void printBoard();
 
+
+
+    vector<vector<Cell>> getBoard();
+    
+private:
+    vector<vector<Cell>> board;
+
+    // helper functions
+    void initBoard(const vector<vector<GAME>> &temp_board);
+    int longestLine();
+    
     // Create board functions 
     void createBoard_1();
     void createBoard_2();
@@ -27,14 +38,7 @@ public:
     void createBoard_5();
     void createBoard_6();
 
-    vector<vector<Cell>> getBoard();
     
-private:
-    vector<vector<Cell>> board;
-
-    void assignBoard(const vector<vector<GAME>> &temp_board);
-
-    int longestLine();
 };
 
 class PegSolitaire::Cell
@@ -55,3 +59,16 @@ class PegSolitaire::Cell
         int column;
         int row;
 };
+
+//Inline functions from Cell class
+inline void PegSolitaire::Cell::setRow(const int &_row) { row = _row; }
+
+inline void PegSolitaire::Cell::setColumn(const int &_column) { column = _column; }
+
+inline void PegSolitaire::Cell::setGame(const GAME &_state) { state = _state; }
+
+inline int PegSolitaire::Cell::getRow() { return row; }
+
+inline int PegSolitaire::Cell::getColumn() { return column; }
+
+inline GAME PegSolitaire::Cell::getGame() { return state; }
