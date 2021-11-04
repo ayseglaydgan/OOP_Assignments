@@ -21,6 +21,11 @@ public:
 
     // Create board functions 
     void createBoard_1();
+    void createBoard_2();
+    void createBoard_3();
+    void createBoard_4();
+    void createBoard_5();
+    void createBoard_6();
 
     vector<vector<Cell>> getBoard();
     

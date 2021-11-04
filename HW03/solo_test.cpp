@@ -78,11 +78,97 @@ void PegSolitaire::createBoard_1()
             {P, P, P, P, P, P, P},
             {_, P, P, P, P, P, _},
             {_, _, P, P, P, _, _}};
-
     assignBoard(temp);
-
 }
 
+void PegSolitaire::createBoard_2()
+{
+    GAME P = GAME::P;
+    GAME D = GAME::DOT;
+    GAME _ = GAME::BLANK;
+    vector<vector<GAME>> temp =
+        {
+            {_, _, _, P, P, P, _, _, _},
+            {_, _, _, P, P, P, _, _, _},
+            {_, _, _, P, P, P, _, _, _},
+            {P, P, P, P, P, P, P, P, P},
+            {P, P, P, P, D, P, P, P, P},
+            {P, P, P, P, P, P, P, P, P},
+            {_, _, _, P, P, P, _, _, _},
+            {_, _, _, P, P, P, _, _, _},
+            {_, _, _, P, P, P, _, _, _}};
+    assignBoard(temp);
+}
+
+void PegSolitaire::createBoard_3()
+{
+    //strong enum
+    GAME P = GAME::P;
+    GAME D = GAME::DOT;
+    GAME _ = GAME::BLANK;
+    vector<vector<GAME>> temp =
+        {
+            {_, _, P, P, P, _, _, _},
+            {_, _, P, P, P, _, _, _},
+            {_, _, P, P, P, _, _, _},
+            {P, P, P, P, P, P, P, P},
+            {P, P, P, D, P, P, P, P},
+            {P, P, P, P, P, P, P, P},
+            {_, _, P, P, P, _, _, _},
+            {_, _, P, P, P, _, _, _}};
+    assignBoard(temp);
+}
+void PegSolitaire::createBoard_4()
+{
+    //strong enum
+    GAME P = GAME::P;
+    GAME D = GAME::DOT;
+    GAME _ = GAME::BLANK;
+    vector<vector<GAME>> temp =
+        {
+            {_, _, P, P, P, _, _},
+            {_, _, P, P, P, _, _},
+            {P, P, P, P, P, P, P},
+            {P, P, P, D, P, P, P},
+            {P, P, P, P, P, P, P},
+            {_, _, P, P, P, _, _},
+            {_, _, P, P, P, _, _}};
+    assignBoard(temp);
+}
+void PegSolitaire::createBoard_5()
+{
+    //strong enum
+    GAME P = GAME::P;
+    GAME D = GAME::DOT;
+    GAME _ = GAME::BLANK;
+    vector<vector<GAME>> temp =
+        {
+            {_, _, _, _, P, _, _, _, _},
+            {_, _, _, P, P, P, _, _, _},
+            {_, _, P, P, P, P, P, _, _},
+            {_, P, P, P, P, P, P, P, _},
+            {P, P, P, P, D, P, P, P, P},
+            {_, P, P, P, P, P, P, P, _},
+            {_, _, P, P, P, P, P, _, _},
+            {_, _, _, P, P, P, _, _, _},
+            {_, _, _, _, P, _, _, _, _}};
+    assignBoard(temp);
+}
+void PegSolitaire::createBoard_6()
+{
+    //strong enum
+    GAME P = GAME::P;
+    GAME D = GAME::DOT;
+    GAME _ = GAME::BLANK;
+    vector<vector<GAME>> temp =
+        {
+            {_, _, D, _, _},
+            {_, P, P, _, _},
+            {_, P, P, P, _},
+            {P, P, P, P, _},
+            {P, P, P, P, P}};
+    assignBoard(temp);
+}
 void PegSolitaire::assignBoard(const vector<vector<GAME>> &temp_board)
 {
     for (int i = 0; i < temp_board.size(); ++i)
