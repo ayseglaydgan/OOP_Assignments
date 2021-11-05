@@ -671,6 +671,19 @@ int PegSolitaire::allPegCounter(const vector<PegSolitaire> &games)
     return totalPegs;
 }
 
+//
+bool PegSolitaire::compareGames(const PegSolitaire &second) const
+{
+    if (peg_count > second.getPegs())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 // cell consturctors
 
 PegSolitaire::Cell::Cell()

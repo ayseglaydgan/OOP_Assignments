@@ -4,9 +4,13 @@
 
 using namespace std;
 
+
+// helper main functions that not relevant with class
 PegSolitaire newGame();
 void continueGame(PegSolitaire& game);
 int selectActiveGame(const vector<PegSolitaire>& games);
+void comparePegs(const vector<PegSolitaire> &games);
+
 bool isCinFail();
 
 int main()
@@ -23,7 +27,8 @@ int main()
         cout << "1- Start New Game" << endl;
         cout << "2- Continue Game" << endl;
         cout << "3- See to Total Number of Pegs in All Games" << endl;
-        cout << "4- Exit" << endl << endl;
+        cout << "4- Compare two games peg count" << endl;
+        cout << "5- Exit" << endl << endl;
         cout << "Available Commands in game ->" << endl << "SAVE/LOAD <filename> || EXIT || Regular Solotest Commands (A5-U)" << endl;
         cout << endl << "-----------------------------------" << endl;
         int choice;
@@ -59,22 +64,23 @@ int main()
                     allPegCounts = PegSolitaire::allPegCounter(games);
                     if (allPegCounts == -1)
                     {
-                        cout << "There is no game to count pegs" << endl;
+                        cerr << "There is no game to count pegs" << endl;
                         break;
                     }
                     
                     cout<<"All Peg Number:" << allPegCounts << endl;
                     break;
             case 4:
+                    comparePegs(games);
+                    break;
+            case 5:
                     cout << "Goodbye sir! I hope I get high grade :)" << endl; 
                     return 0;
             default:
-                    cout << "Invalid choice!" << endl;
+                    cerr << "Invalid choice!" << endl;
                     break;
         }
     }
-    
-    
     return 0;
 }
 
@@ -194,7 +200,7 @@ int selectActiveGame(const vector<PegSolitaire> &games)
         
         if (selected < 0 || selected >= games.size())
         {
-            cout << "Invalid index!" << endl;
+            cerr << "Invalid index!" << endl;
             continue;
         }
         
@@ -205,11 +211,79 @@ int selectActiveGame(const vector<PegSolitaire> &games)
             return selected;
         }
         else // if game is passive
-            cout << "You can't choise this game. This game is passive" << endl;  
+            cerr << "You can't choise this game. This game is passive" << endl;  
     }
     
 }
 
+void comparePegs(const vector<PegSolitaire> &games)
+{
+    if (games.size() < 2)
+    {
+        cerr << "There is no enough game to compare" << endl;
+        cerr << "Please start at least 2 game" << endl;
+        return;
+    }
+
+    int index_1 = 0;
+    int index_2 = 0;
+    bool result = false;
+    cout << "Available Games:" << endl;
+    for (int i = 0; i < games.size(); ++i)
+    {
+        cout << "GAMES[" << i << "]:" << endl;
+    }
+
+    while (1)
+    {
+        cout << "Please enter the game indexes to compare" << endl;
+        cout << "First Index:";
+        cin >> index_1;
+
+        if (isCinFail())
+            continue;
+            
+        if (index_1 < 0 || index_1 >= games.size())
+        {
+            cerr << "Invalid index!" << endl;
+            continue;
+        }
+        
+            
+        cout << "Second Index:";
+        cin >> index_2;
+        
+        if (isCinFail())
+            continue;
+
+        if (index_2 < 0 || index_2 >= games.size())
+        {
+            cerr << "Invalid index!" << endl;
+            continue;
+        }
+
+        break;
+
+    }
+    
+
+    
+    result = games[index_1].compareGames(games[index_2]);
+
+    cout << "Index:" <<  index_1 << " Peg count:" << games[index_1].getPegs() << endl;
+    cout << "Index:" <<  index_2 << " Peg count:" << games[index_2].getPegs() << endl;
+
+    if (result)
+    {
+        cout << "games["<< index_1 << "] pegs count is bigger than games[" << index_2 << "]" << endl; 
+    }
+    else
+    {
+        cout << "games["<< index_1 << "] pegs count is smaller then or equal to games[" << index_2 << "]" << endl; 
+    }
+    
+    
+}
 
 bool isCinFail()
 {

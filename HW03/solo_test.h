@@ -29,6 +29,10 @@ public:
     // return all peg counts
     static int allPegCounter(const vector<PegSolitaire> &games);
 
+    // return true if first game peg count is bigger
+    // false if second game peg count is bigger
+    bool compareGames(const PegSolitaire &second) const; 
+
     // initially maked a stsatic function
     // to use when we want to a randomm number between in a range
     static int generateRandom(const int &min, const int &max);
