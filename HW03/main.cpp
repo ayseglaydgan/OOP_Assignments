@@ -1,21 +1,21 @@
-#include<iostream>
-#include<vector>
-#include"solo_test.h"
+#include <iostream>
+#include <vector>
+#include "solo_test.h"
 
 using namespace std;
 
 int main()
 {
 
-    int type = 5;
+    int type = 4;
 
-    int player = 1;
+    int player = 2;
 
     PegSolitaire game(type, player);
     game.printBoard();
 
-
-    while (1)
+    int gameFinish = 0;
+    while (gameFinish == 0)
     {
         string command;
         if (game.getPlayer() == 1) // player
@@ -29,12 +29,12 @@ int main()
         }
         else if (game.getPlayer() == 2) // computer
         {
+            // TODO: computer move
             // command = game.generateComputerCommand();
         }
 
-        if (game.playGame() == 1) // if game finished, return 1
-            break;
+        gameFinish = game.playGame(); // if game finished, return 1
     }
-    
+
     game.printBoard();
 }
