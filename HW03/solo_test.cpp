@@ -665,6 +665,7 @@ int PegSolitaire::allPegCounter(const vector<PegSolitaire> &games)
     int totalPegs = 0;
     for(int i = 0; i < games.size(); ++i)
     {
+        cout << "games[" << i << "] Pegs:" << games[i].getPegs() << endl; 
         totalPegs += games[i].getPegs();
     }
     return totalPegs;
