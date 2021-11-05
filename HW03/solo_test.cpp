@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <random>
+#include <fstream>
 #include "solo_test.h"
 
 using namespace std;
@@ -79,6 +81,8 @@ int PegSolitaire::longestLine()
 
 void PegSolitaire::printBoard()
 {
+    cellCounter();
+    cout << "Info: Total Peg:" << peg_count + move_count <<" Remaining Peg:" << peg_count << " Empty(Dot) Count:" << empty_count << endl; 
     int row_num = 1;
 
     // determine the longest line to write all rows
@@ -125,6 +129,29 @@ void PegSolitaire::initBoard(const vector<vector<GAME>> &temp_board)
     }
 }
 
+void PegSolitaire::cellCounter()
+{
+    int peg = 0;
+    int empty = 0;
+    for (int i = 0; i < board.size(); ++i)
+    {
+        for (int j = 0; j < board[i].size(); ++j)
+        {
+            if (board[i][j].getState() == GAME::P )
+            {
+                peg++;
+            }
+            if (board[i][j].getState() == GAME::DOT)
+            {
+                empty++;
+            }
+             
+        } 
+    }
+    peg_count = peg;
+    empty_count = empty;
+}
+
 void PegSolitaire::createBoard_1()
 {
     GAME P = GAME::P;
@@ -139,6 +166,7 @@ void PegSolitaire::createBoard_1()
             {P, P, P, P, P, P, P},
             {_, P, P, P, P, P, _},
             {_, _, P, P, P, _, _}};
+    
     initBoard(temp);
 }
 
@@ -158,6 +186,7 @@ void PegSolitaire::createBoard_2()
             {_, _, _, P, P, P, _, _, _},
             {_, _, _, P, P, P, _, _, _},
             {_, _, _, P, P, P, _, _, _}};
+
     initBoard(temp);
 }
 
@@ -177,6 +206,7 @@ void PegSolitaire::createBoard_3()
             {P, P, P, P, P, P, P, P},
             {_, _, P, P, P, _, _, _},
             {_, _, P, P, P, _, _, _}};
+
     initBoard(temp);
 }
 
@@ -195,6 +225,7 @@ void PegSolitaire::createBoard_4()
             {P, P, P, P, P, P, P},
             {_, _, P, P, P, _, _},
             {_, _, P, P, P, _, _}};
+
     initBoard(temp);
 }
 
@@ -215,6 +246,7 @@ void PegSolitaire::createBoard_5()
             {_, _, P, P, P, P, P, _, _},
             {_, _, _, P, P, P, _, _, _},
             {_, _, _, _, P, _, _, _, _}};
+
     initBoard(temp);
 }
 
@@ -231,6 +263,7 @@ void PegSolitaire::createBoard_6()
             {_, P, P, P, _},
             {P, P, P, P, _},
             {P, P, P, P, P}};
+
     initBoard(temp);
 }
 
@@ -254,6 +287,8 @@ int PegSolitaire::isValidCommand()
         return 1;
     if (command.find("LOAD ") != std::string::npos)
         return 2;
+    if (command.find("EXIT") != std::string::npos)
+        return 3;
 
     else if (command.empty() || command.length() != 4)
     {
@@ -385,7 +420,174 @@ int PegSolitaire::gameFinish()
     return remaining_p;
 }
 
+int PegSolitaire::generateRandom(const int &min, const int &max)
+{
+    //some lines of code by heart to produce random numbers
+    //probably it produces from hardware
+    int random = 0;
+    std::random_device generator;
+    std::mt19937 gen(generator());
+    std::uniform_int_distribution<int> distr(min, max);
+    random = distr(generator);
+    return random;
+}
+
+string PegSolitaire::generateComputerCommand()
+{
+    string command = "";
+    char first = char(generateRandom('A', 'A' + longestLine() - 1));
+    char second = char(generateRandom('1', '1' + board.size() - 1));
+    char last = 0;
+
+    // to get the direction
+    switch (generateRandom(1, 4))
+    {
+    case 1:
+        last = 'U';
+        break;
+    case 2:
+        last = 'D';
+        break;
+    case 3:
+        last = 'L';
+        break;
+    case 4:
+        last = 'R';
+        break;
+    default:
+        break;
+    }
+    // cout << "first:" << first << " second:" << second << " last:" << last << endl;
+    command.push_back(first);
+    command.push_back(second);
+    command.push_back('-');
+    command.push_back(last);
+
+    return command;
+}
+
+void PegSolitaire::saveGame()
+{
+    // take file name from command
+    // SAVE filename.txt for example
+    string file_name = command.substr(5);
+
+    // create new file pointer named fout
+    ofstream fout;
+    fout.open(file_name);
+
+    if (!fout.is_open())
+    {
+        cerr << "Can not create this file " << file_name << endl;
+        return;
+    }
+
+    // write player_type and table_type and move_count to table
+    fout << board_type << endl;
+    fout << player_type << endl;
+    fout << move_count << endl;
+
+    // write board info to file
+    for (vector<Cell> board_line : board)
+    {
+        for (Cell cell : board_line)
+        {
+            if (cell.getState() == GAME::DOT)
+                fout << ".";
+            if (cell.getState() == GAME::P)
+                fout << "P";
+            if (cell.getState() == GAME::BLANK)
+                fout << " ";
+        }
+        fout << endl;
+    }
+    fout.close();
+
+    cout << "Game saved to " << file_name << " successfully" << endl;
+}
+
+void PegSolitaire::loadGame()
+{
+    vector<vector<GAME>> board_read;
+    string file_name = command.substr(5);
+    ifstream fin;
+    fin.open(file_name);
+
+    if (!fin.is_open())
+    {
+        cerr << "Can not create this file " << file_name << endl;
+        return;
+    }
+
+    // write player_type and table_type and move_count to table
+    fin >> board_type;
+    fin >> player_type;
+    fin >> move_count;
+
+    string line;
+
+    // ignore last empty character
+    fin.ignore();
+
+    while (getline(fin, line))
+    {
+        board_read.push_back(vector<GAME>());
+        for (const char element : line)
+        {
+            if (element == '.')
+                board_read[board_read.size() - 1].push_back(GAME::DOT);
+            else if (element == 'P')
+                board_read[board_read.size() - 1].push_back(GAME::P);
+            else // if char is not P or ".", assume that it is a blank point
+                board_read[board_read.size() - 1].push_back(GAME::BLANK);
+        }
+    }
+
+    fin.close();
+
+    // assign read board to original board
+    for (int i = 0; i < board.size(); i++)
+    {
+        board[i].clear();
+    }
+    board.clear();
+    initBoard(board_read);
+
+    cout << "Game loaded from " << file_name << " successfully" << endl;
+    cout << "Game Shape Number:" << board_type << endl;
+    cout << "Game Type:";
+    if (player_type == 1)
+        cout << "Player" << endl;
+    else
+        cout << "Computer" << endl;
+    cout << "Move count" << move_count << endl;
+
+    cout << "Game Table:" << endl;
+    printBoard();
+}
+
 bool PegSolitaire::playGame()
+{
+    return play();
+}
+
+bool PegSolitaire::play()
+{
+    string command = generateComputerCommand();
+    setCommand(command);
+    return allGame();
+}
+
+bool PegSolitaire::play(Cell position)
+{
+    position.setRow(command_i);
+    position.setColumn(command_j);
+    position.setState(GAME::P);
+    return allGame();
+}
+
+
+bool PegSolitaire::allGame()
 {
     const int size = longestLine();
 
@@ -402,19 +604,21 @@ bool PegSolitaire::playGame()
     // save funciton
     else if (command_type == 1)
     {
-        cout << "SAVE" << endl;
-        // TODO
-        // saveGame();
+        saveGame();
         return false;
     }
 
     // load function
     else if (command_type == 2)
     {
-        cout << "LOAD" << endl;
-        // TODO
-        // loadGame();
+        loadGame();
         return false;
+    }
+
+    else if (command_type == 3)
+    {
+        cout << "You exit from game. Game is still active" << endl;
+        return true;
     }
 
     if (!checkMove())
@@ -433,6 +637,7 @@ bool PegSolitaire::playGame()
     {
         cout << "Game is finished. Congrats" << endl;
         cout << "Your score:" << score << endl;
+        isGameFinish = true;
         return true;
     }
 

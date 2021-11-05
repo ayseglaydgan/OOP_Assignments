@@ -20,6 +20,9 @@ public:
 
     void printBoard();
 
+    bool allGame();
+    bool play();
+    bool play(Cell cell);
     bool playGame();
 
     void setCommand(const string &command);
@@ -27,9 +30,17 @@ public:
     int getPlayer();
     vector<vector<Cell>> getBoard();
 
+    //Inline functions for number of pegs and empty cells
+    int getPegs();
+    int getEmptyCells();
+    int getRemoved();
+
+    bool getIsGameFinish();
+
     // initially maked a stsatic function
     // to use when we want to a randomm number between in a range
-    int static generateRandom(const int &min, const int &max);
+    static int generateRandom(const int &min, const int &max);
+    string generateComputerCommand();
 
 private:
     vector<vector<Cell>> board;
@@ -37,6 +48,10 @@ private:
     int board_type;
     int player_type;
     int move_count = 0;
+    int peg_count = 0;
+    int empty_count = 0;
+
+    bool isGameFinish = false;
 
     string command;
     int command_i;
@@ -51,8 +66,11 @@ private:
     bool checkMove();
     void move();
     int gameFinish();
-    string generateComputerCommand();
+    void saveGame();
+    void loadGame();
+    void cellCounter();
     
+
     // Create board functions
     void createBoard_1();
     void createBoard_2();
@@ -86,6 +104,20 @@ inline void PegSolitaire::setPlayer(const int &_player) { player_type = _player;
 inline int PegSolitaire::getPlayer() { return player_type; }
 inline vector<vector<PegSolitaire::Cell>> PegSolitaire::getBoard() { return board; }
 
+
+// Get remaining peg counts
+inline int PegSolitaire::getPegs() { return peg_count; }
+// Get empty cell counts
+inline int PegSolitaire::getEmptyCells() { return empty_count; }
+// Get remaining removed cell counts
+inline int PegSolitaire::getRemoved() { return move_count; }
+
+inline bool PegSolitaire::getIsGameFinish() { return isGameFinish; }
+
+
+
+
+ 
 //Inline functions from Cell class
 inline void PegSolitaire::Cell::setRow(const int &_row) { row = _row; }
 
