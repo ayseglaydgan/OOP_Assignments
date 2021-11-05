@@ -16,7 +16,7 @@ PegSolitaire::PegSolitaire()
 }
 
 //when the object is creating, if a parameter indicated it is our board type.
-PegSolitaire::PegSolitaire(int type)
+PegSolitaire::PegSolitaire(const int &type)
 {
     if (type == 1)
         createBoard_1();
@@ -41,7 +41,7 @@ PegSolitaire::PegSolitaire(int type)
 }
 
 //when the object is creating, if there is 2 parameter first of it is board type, second is player type
-PegSolitaire::PegSolitaire(int _board_type, int _player_type)
+PegSolitaire::PegSolitaire(const int &_board_type, const int &_player_type)
 {
     if (_board_type == 1)
         createBoard_1();
@@ -69,7 +69,6 @@ PegSolitaire::PegSolitaire(int _board_type, int _player_type)
 // So, take the longest line when detecting the size of the board
 int PegSolitaire::longestLine()
 {
-
     int longest_line = 0;
     for (int i = 0; i < board.size(); i++)
     {
@@ -79,16 +78,40 @@ int PegSolitaire::longestLine()
     return longest_line;
 }
 
+void PegSolitaire::cellCounter()
+{
+    peg_count = 0;
+    empty_count = 0;
+    for (const vector<Cell> board_1d : board)
+    {
+        for(const Cell cell : board_1d)
+        {
+            if (cell.getState() == GAME::P)
+            {
+                peg_count++;
+            }
+            else if (cell.getState() == GAME::DOT)
+            {
+                empty_count++;
+            }   
+        }
+    }
+}
+
 void PegSolitaire::printBoard()
 {
     cellCounter();
     cout << "Info: Total Peg:" << peg_count + move_count <<" Remaining Peg:" << peg_count << " Empty(Dot) Count:" << empty_count << endl; 
+
+    //row_num = 1 because first row used for letter coordinates
     int row_num = 1;
 
     // determine the longest line to write all rows
     int longest_line = longestLine();
 
+    // leave a tab for printing "abcdefg"
     cout << "  ";
+    
     //to adjust the coordinates
     for (int i = 0; i < longest_line; ++i)
     {
@@ -97,6 +120,8 @@ void PegSolitaire::printBoard()
     cout << endl;
 
     //some lines of code by heart to adjust strong enum types
+    // Update (5.11.2021). I understand now :)
+    // I think it is a good idea to use enum types to make the code more readable
     for (const vector<Cell> board_1d : board)
     {
         cout << row_num << " ";
@@ -127,29 +152,6 @@ void PegSolitaire::initBoard(const vector<vector<GAME>> &temp_board)
             board[i].push_back(Cell(i, j, temp_board[i][j]));
         }
     }
-}
-
-void PegSolitaire::cellCounter()
-{
-    int peg = 0;
-    int empty = 0;
-    for (int i = 0; i < board.size(); ++i)
-    {
-        for (int j = 0; j < board[i].size(); ++j)
-        {
-            if (board[i][j].getState() == GAME::P )
-            {
-                peg++;
-            }
-            if (board[i][j].getState() == GAME::DOT)
-            {
-                empty++;
-            }
-             
-        } 
-    }
-    peg_count = peg;
-    empty_count = empty;
 }
 
 void PegSolitaire::createBoard_1()
@@ -279,7 +281,7 @@ void PegSolitaire::setCommand(const string &_command)
 
 int PegSolitaire::isValidCommand()
 {
-    int size = longestLine();
+    const int size = longestLine();
     int is_valid = 0;
 
     // save load
@@ -323,9 +325,9 @@ bool PegSolitaire::checkMove()
 {
     // take longest line for arbitrary boards
     const int size = longestLine();
-    int i = command_i;
-    int j = command_j;
-    char direction = command_direction;
+    const int i = command_i;
+    const int j = command_j;
+    const char direction = command_direction;
 
     //checks the playing point is peg
     if (board[i][j].getState() == GAME::DOT || board[i][j].getState() == GAME::BLANK)
@@ -363,7 +365,7 @@ void PegSolitaire::move()
     const char direction = command_direction;
 
     //SWAP according to direction
-    Cell temp = board[i][j];
+    const Cell temp = board[i][j];
     if (direction == 'U') //UP
     {
         board[i][j] = board[i - 2][j];
@@ -466,11 +468,11 @@ string PegSolitaire::generateComputerCommand()
     return command;
 }
 
-void PegSolitaire::saveGame()
+void PegSolitaire::saveGame() const
 {
     // take file name from command
     // SAVE filename.txt for example
-    string file_name = command.substr(5);
+    const string file_name = command.substr(5);
 
     // create new file pointer named fout
     ofstream fout;
@@ -488,9 +490,9 @@ void PegSolitaire::saveGame()
     fout << move_count << endl;
 
     // write board info to file
-    for (vector<Cell> board_line : board)
+    for (const vector<Cell> board_line : board)
     {
-        for (Cell cell : board_line)
+        for (const Cell cell : board_line)
         {
             if (cell.getState() == GAME::DOT)
                 fout << ".";
@@ -509,7 +511,7 @@ void PegSolitaire::saveGame()
 void PegSolitaire::loadGame()
 {
     vector<vector<GAME>> board_read;
-    string file_name = command.substr(5);
+    const string file_name = command.substr(5);
     ifstream fin;
     fin.open(file_name);
 
@@ -532,14 +534,15 @@ void PegSolitaire::loadGame()
     while (getline(fin, line))
     {
         board_read.push_back(vector<GAME>());
+        int last_index = board_read.size() - 1;
         for (const char element : line)
         {
             if (element == '.')
-                board_read[board_read.size() - 1].push_back(GAME::DOT);
+                board_read[last_index].push_back(GAME::DOT);
             else if (element == 'P')
-                board_read[board_read.size() - 1].push_back(GAME::P);
+                board_read[last_index].push_back(GAME::P);
             else // if char is not P or ".", assume that it is a blank point
-                board_read[board_read.size() - 1].push_back(GAME::BLANK);
+                board_read[last_index].push_back(GAME::BLANK);
         }
     }
 
@@ -566,6 +569,7 @@ void PegSolitaire::loadGame()
     printBoard();
 }
 
+
 bool PegSolitaire::playGame()
 {
     return play();
@@ -586,13 +590,10 @@ bool PegSolitaire::play(Cell position)
     return allGame();
 }
 
-
 bool PegSolitaire::allGame()
 {
-    const int size = longestLine();
-
-    // use command type to determine SAVE || LOAD or normal command || invalid
-    int command_type = isValidCommand();
+    // use command type to determine SAVE || LOAD || EXIT or normal command || invalid
+    const int command_type = isValidCommand();
 
     if (command_type == -1) //if the command is invalid
     {
@@ -615,12 +616,14 @@ bool PegSolitaire::allGame()
         return false;
     }
 
+    // EXIT Condition
     else if (command_type == 3)
     {
         cout << "You exit from game. Game is still active" << endl;
         return true;
     }
 
+    // Check direction and place is valid
     if (!checkMove())
     {
         if (player_type == 1) // if player is human
@@ -631,19 +634,21 @@ bool PegSolitaire::allGame()
     move_count++;
     move();
 
+    // if computer plays this. It will print computer move
+    if (player_type == 2)
+        cout << "Computer Movement:" << command << endl;
+
     //gameFinish returns the remaining peg, if it is not -1, that means there are still moves to play.
     auto score = gameFinish();
-    if (score != -1) // if game is not finished
+    if (score != -1) // if game is finished
     {
-        cout << "Game is finished. Congrats" << endl;
+        cout << "Game is finished. Congrats" << ". Game is passive now." << endl;
         cout << "Your score:" << score << endl;
         isGameFinish = true;
         return true;
     }
 
-    if (player_type == 2)
-        cout << "Computer Movement:" << command << endl;
-
+    // print board in every move
     printBoard();
     return false;
 }

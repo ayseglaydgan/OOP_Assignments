@@ -5,16 +5,14 @@
 using namespace std;
 
 PegSolitaire newGame();
-void continueGame(PegSolitaire game);
-int selectActiveGame(vector<PegSolitaire>& games);
-
+void continueGame(PegSolitaire& game);
+int selectActiveGame(const vector<PegSolitaire>& games);
 bool isCinFail();
 
 int main()
 {
     cout << "Welcome to Peg Solitaire!" << endl;
-    PegSolitaire game;
-    int selected;
+    int selected = -1;
     vector<PegSolitaire> games;
 
     while(1)
@@ -22,30 +20,40 @@ int main()
         cout << "-------------- MENU -------------- " << endl;
         cout << "1- Start New Game" << endl;
         cout << "2- Continue Game" << endl;
-        cout << "3- Exit" << endl;
-        cout << "-----------------------------------" << endl;
+        cout << "3- Exit" << endl << endl;
+        cout << "Available Commands in game ->" << endl << "SAVE/LOAD <filename> || EXIT || Regular Solotest Commands (A5-U)" << endl;
+        cout << endl << "-----------------------------------" << endl;
         int choice;
         
         cout << "Enter choice:";
         cin >> choice;
 
+        // if cin fails, then the user has entered an invalid input
         if (isCinFail())
             continue;
 
         switch(choice)
         {
             case 1:
-                    game = newGame();
-                    games.push_back(game);
-                    cout << "Games size:" << games.size() << endl;
-                    continueGame(game);
+                    // game = newGame();
+                    games.push_back(newGame());
+                    // get last added element from vector
+                    // because with this, it will efect the
+                    // right game. Without doing this, it is effecting
+                    // wrong game. And does not change expected game.
+                    continueGame(games[ games.size() - 1 ]);
                     break;
             case 2:
-                    cout << "Games size:" << games.size() << endl;
                     selected = selectActiveGame(games);
+                    if (selected == -1)
+                    {
+                        break;
+                    }
+                    
                     continueGame(games[selected]);
                     break;
             case 3:
+                    cout << "Goodbye sir! I hope I get high grade :)" << endl; 
                     return 0;
             default:
                     cout << "Invalid choice!" << endl;
@@ -54,20 +62,6 @@ int main()
     }
     
     
-
-
-    // PegSolitaire game(type, player);
-    
-    // //If game is not finished, continue to play
-    // if (game.getIsGameFinish() == false)
-    // {
-    //     continueGame(game);
-    // }
-    
-
-
-
-    cout << "Buraya kadar gelebildim mi?" << endl;
     return 0;
 }
 
@@ -118,12 +112,13 @@ PegSolitaire newGame()
     return game;
 }
 
-void continueGame(PegSolitaire game)
+void continueGame(PegSolitaire& game)
 {
     game.printBoard();
 
-    int isGameActive = 0;
-    while (isGameActive == 0)
+    cin.ignore();
+    bool isGamePending = false;
+    while (isGamePending == false)
     {
         if (game.getPlayer() == 1) // player
         {
@@ -134,23 +129,26 @@ void continueGame(PegSolitaire game)
             // used for (SAVE FILE.txt or LOAD FILE.txt)
             getline(cin, command);
             game.setCommand(command);
-            isGameActive = game.play(PegSolitaire::Cell(1,1,GAME::BLANK));
+            isGamePending = game.play(PegSolitaire::Cell(1,1,GAME::BLANK));
         }
         else if (game.getPlayer() == 2) // computer
-            isGameActive = game.playGame();
-
-        // set the command human or computer, does not matter.
-        // set with PegSolitare private string data member
-        
+            isGamePending = game.playGame();  
     }
 
     game.printBoard();
 }
 
 
-int selectActiveGame(vector<PegSolitaire> &games)
+int selectActiveGame(const vector<PegSolitaire> &games)
 {
-    int selected;
+    if (games.size() == 0)
+    {
+        cerr << "There is no even one game yet" << endl;
+        return -1;
+    }
+    
+    int selected = -1;
+    int passive_num = 0;
     cout << "All Games List:" << endl;
     for (int i = 0; i < games.size(); ++i)
     {
@@ -161,10 +159,18 @@ int selectActiveGame(vector<PegSolitaire> &games)
         }
         else
         {
+            passive_num++;
             cout << "PASSIVE" << endl;
         }
         
     }
+    
+    if (passive_num == games.size())
+    {
+        cerr << "There is no active game. " << "First, start a new game." << endl;
+        return -1;
+    }
+    
     while(1)
     {
         cout << "Choice a game:";
@@ -175,18 +181,18 @@ int selectActiveGame(vector<PegSolitaire> &games)
         
         if (selected < 0 || selected >= games.size())
         {
-            cout << "Invalid input!" << endl;
+            cout << "Invalid index!" << endl;
             continue;
         }
         
 
-        if (games[selected].getIsGameFinish() == false)
+        if (games[selected].getIsGameFinish() == false) // if game is active
         {
             cout << "You choice " << selected << ". game" << endl;
             return selected;
         }
-        else
-            cout << "You can choise this game. This game is passive" << endl;  
+        else // if game is passive
+            cout << "You can't choise this game. This game is passive" << endl;  
     }
     
 }

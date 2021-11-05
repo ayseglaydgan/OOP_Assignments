@@ -14,28 +14,30 @@ class PegSolitaire
 {
 public:
     PegSolitaire();
-    PegSolitaire(int type);
-    PegSolitaire(int board_type, int player_type);
+    PegSolitaire(const int &type);
+    PegSolitaire(const int &board_type, const int &player_type);
     class Cell;
 
     void printBoard();
 
-    bool allGame();
-    bool play();
-    bool play(Cell cell);
-    bool playGame();
+    bool allGame(); // plays for human and computer
+
+    bool play(Cell cell); // plays for human
+    bool play(); // plays for computer
+    bool playGame(); // plays for computer
 
     void setCommand(const string &command);
     void setPlayer(const int &player_type);
-    int getPlayer();
-    vector<vector<Cell>> getBoard();
+
+    int getPlayer() const;
+    vector<vector<Cell>> getBoard() const;
 
     //Inline functions for number of pegs and empty cells
-    int getPegs();
-    int getEmptyCells();
-    int getRemoved();
+    int getPegs() const;
+    int getEmptyCells() const;
+    int getRemoved() const;
 
-    bool getIsGameFinish();
+    bool getIsGameFinish() const;
 
     // initially maked a stsatic function
     // to use when we want to a randomm number between in a range
@@ -53,20 +55,24 @@ private:
 
     bool isGameFinish = false;
 
-    string command;
-    int command_i;
+    string command = "";
+    int command_i = 0;
     // decltype used here
-    decltype(command_i) command_j;
-    char command_direction;
+    decltype(command_i) command_j = 0;
+    char command_direction = 'U';
 
     // helper functions
     void initBoard(const vector<vector<GAME>> &temp_board);
     int longestLine();
+
+    // this helper functions would be const
+    // but they calling a non const function
     int isValidCommand();
     bool checkMove();
+    
     void move();
     int gameFinish();
-    void saveGame();
+    void saveGame() const;
     void loadGame();
     void cellCounter();
     
@@ -89,9 +95,9 @@ public:
     void setRow(const int &row);
     void setColumn(const int &column);
     void setState(const GAME &state);
-    int getRow();
-    int getColumn();
-    GAME getState();
+    int getRow() const;
+    int getColumn() const;
+    GAME getState() const;
 
 private:
     GAME state;
@@ -101,18 +107,18 @@ private:
 
 // Inline functions for Pegsolitare class
 inline void PegSolitaire::setPlayer(const int &_player) { player_type = _player; }
-inline int PegSolitaire::getPlayer() { return player_type; }
-inline vector<vector<PegSolitaire::Cell>> PegSolitaire::getBoard() { return board; }
+inline int PegSolitaire::getPlayer() const { return player_type; }
+inline vector<vector<PegSolitaire::Cell>> PegSolitaire::getBoard() const { return board; }
 
 
 // Get remaining peg counts
-inline int PegSolitaire::getPegs() { return peg_count; }
+inline int PegSolitaire::getPegs() const { return peg_count; }
 // Get empty cell counts
-inline int PegSolitaire::getEmptyCells() { return empty_count; }
+inline int PegSolitaire::getEmptyCells() const { return empty_count; }
 // Get remaining removed cell counts
-inline int PegSolitaire::getRemoved() { return move_count; }
+inline int PegSolitaire::getRemoved() const { return move_count; }
 
-inline bool PegSolitaire::getIsGameFinish() { return isGameFinish; }
+inline bool PegSolitaire::getIsGameFinish() const { return isGameFinish; }
 
 
 
@@ -125,8 +131,8 @@ inline void PegSolitaire::Cell::setColumn(const int &_column) { column = _column
 
 inline void PegSolitaire::Cell::setState(const GAME &_state) { state = _state; }
 
-inline int PegSolitaire::Cell::getRow() { return row; }
+inline int PegSolitaire::Cell::getRow() const { return row; }
 
-inline int PegSolitaire::Cell::getColumn() { return column; }
+inline int PegSolitaire::Cell::getColumn() const { return column; }
 
-inline GAME PegSolitaire::Cell::getState() { return state; }
+inline GAME PegSolitaire::Cell::getState() const { return state; }
