@@ -653,6 +653,23 @@ bool PegSolitaire::allGame()
     return false;
 }
 
+int PegSolitaire::allPegCounter(const vector<PegSolitaire> &games)
+{
+    // if there is no game in this vector
+    // return -1
+    if (games.size() == 0)
+    {
+        return -1;
+    }
+    
+    int totalPegs = 0;
+    for(int i = 0; i < games.size(); ++i)
+    {
+        totalPegs += games[i].getPegs();
+    }
+    return totalPegs;
+}
+
 // cell consturctors
 
 PegSolitaire::Cell::Cell()

@@ -12,15 +12,18 @@ bool isCinFail();
 int main()
 {
     cout << "Welcome to Peg Solitaire!" << endl;
-    int selected = -1;
+
     vector<PegSolitaire> games;
+    int selected = -1;
+    int allPegCounts = -1;
 
     while(1)
     {
         cout << "-------------- MENU -------------- " << endl;
         cout << "1- Start New Game" << endl;
         cout << "2- Continue Game" << endl;
-        cout << "3- Exit" << endl << endl;
+        cout << "3- See to Total Number of Pegs in All Games" << endl;
+        cout << "4- Exit" << endl << endl;
         cout << "Available Commands in game ->" << endl << "SAVE/LOAD <filename> || EXIT || Regular Solotest Commands (A5-U)" << endl;
         cout << endl << "-----------------------------------" << endl;
         int choice;
@@ -52,7 +55,17 @@ int main()
                     
                     continueGame(games[selected]);
                     break;
-            case 3:
+            case 3: 
+                    allPegCounts = PegSolitaire::allPegCounter(games);
+                    if (allPegCounts == -1)
+                    {
+                        cout << "There is no game to count pegs" << endl;
+                        break;
+                    }
+                    
+                    cout<<"All Peg Number:" << allPegCounts << endl;
+                    break;
+            case 4:
                     cout << "Goodbye sir! I hope I get high grade :)" << endl; 
                     return 0;
             default:

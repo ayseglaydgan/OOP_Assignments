@@ -26,9 +26,17 @@ public:
     bool play(); // plays for computer
     bool playGame(); // plays for computer
 
+    // return all peg counts
+    static int allPegCounter(const vector<PegSolitaire> &games);
+
+    // initially maked a stsatic function
+    // to use when we want to a randomm number between in a range
+    static int generateRandom(const int &min, const int &max);
+    string generateComputerCommand();
+
+
     void setCommand(const string &command);
     void setPlayer(const int &player_type);
-
     int getPlayer() const;
     vector<vector<Cell>> getBoard() const;
 
@@ -38,12 +46,6 @@ public:
     int getRemoved() const;
 
     bool getIsGameFinish() const;
-
-    // initially maked a stsatic function
-    // to use when we want to a randomm number between in a range
-    static int generateRandom(const int &min, const int &max);
-    string generateComputerCommand();
-
 private:
     vector<vector<Cell>> board;
 
