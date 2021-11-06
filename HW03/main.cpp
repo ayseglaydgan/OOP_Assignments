@@ -13,10 +13,16 @@ void comparePegs(const vector<PegSolitaire> &games);
 
 bool isCinFail();
 
+
+//assigned before an object created because its static value
+int PegSolitaire::game_count = 0;
+int PegSolitaire::active_game_count = 0;
+
 int main()
 {
     cout << "Welcome to Peg Solitaire!" << endl;
 
+    //IT IS NOT AN PEGSOLITAIRE OBJECT JUST A VECTOR
     vector<PegSolitaire> games;
     int selected = -1;
     int allPegCounts = -1;
@@ -50,6 +56,7 @@ int main()
                     // right game. Without doing this, it is effecting
                     // wrong game. And does not change expected game.
                     continueGame(games[ games.size() - 1 ]);
+                    cout << "count of objects:" << PegSolitaire::getgameCount() << endl; 
                     break;
             case 2:
                     selected = selectActiveGame(games);
@@ -167,7 +174,6 @@ int selectActiveGame(const vector<PegSolitaire> &games)
     }
     
     int selected = -1;
-    int passive_num = 0;
     cout << "All Games List:" << endl;
     for (int i = 0; i < games.size(); ++i)
     {
@@ -178,13 +184,12 @@ int selectActiveGame(const vector<PegSolitaire> &games)
         }
         else
         {
-            passive_num++;
             cout << "PASSIVE" << endl;
         }
         
     }
     
-    if (passive_num == games.size())
+    if (PegSolitaire::getActiveGameCount() == 0)
     {
         cerr << "There is no active game. " << "First, start a new game." << endl;
         return -1;

@@ -49,6 +49,9 @@ public:
     int getEmptyCells() const;
     int getRemoved() const;
 
+    static int getgameCount();
+    static int getActiveGameCount();
+
     bool getIsGameFinish() const;
 private:
     vector<vector<Cell>> board;
@@ -60,6 +63,11 @@ private:
     int empty_count = 0;
 
     bool isGameFinish = false;
+
+    static int game_count;
+    static int active_game_count;
+
+    
 
     string command = "";
     int command_i = 0;
@@ -91,6 +99,10 @@ private:
     void createBoard_5();
     void createBoard_6();
 };
+
+
+
+
 
 class PegSolitaire::Cell
 {
@@ -126,7 +138,9 @@ inline int PegSolitaire::getRemoved() const { return move_count; }
 
 inline bool PegSolitaire::getIsGameFinish() const { return isGameFinish; }
 
+inline int PegSolitaire::getgameCount() { return game_count; }
 
+inline int PegSolitaire::getActiveGameCount() { return active_game_count; }
 
 
  

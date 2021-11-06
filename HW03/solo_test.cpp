@@ -13,6 +13,9 @@ PegSolitaire::PegSolitaire()
     player_type = 1;
     board_type = 4;
     createBoard_4();
+
+    game_count++;
+    active_game_count++;
 }
 
 //when the object is creating, if a parameter indicated it is our board type.
@@ -38,6 +41,9 @@ PegSolitaire::PegSolitaire(const int &type)
     }
     board_type = type;
     player_type = 1;
+
+    game_count++;
+    active_game_count++;
 }
 
 //when the object is creating, if there is 2 parameter first of it is board type, second is player type
@@ -63,6 +69,9 @@ PegSolitaire::PegSolitaire(const int &_board_type, const int &_player_type)
     }
     board_type = _board_type;
     player_type = _player_type;
+
+    game_count++;
+    active_game_count++;
 }
 
 //Saved or Loaded Board can be bigger than implamentation
@@ -645,6 +654,7 @@ bool PegSolitaire::allGame()
         cout << "Game is finished. Congrats" << ". Game is passive now." << endl;
         cout << "Your score:" << score << endl;
         isGameFinish = true;
+        active_game_count--;
         return true;
     }
 
