@@ -671,7 +671,7 @@ int PegSolitaire::allPegCounter(const vector<PegSolitaire> &games)
     return totalPegs;
 }
 
-//
+//peg_count holds the number of pegs which is in current PegSolitaire game
 bool PegSolitaire::compareGames(const PegSolitaire &second) const
 {
     if (peg_count > second.getPegs())
