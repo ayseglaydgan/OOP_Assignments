@@ -1,4 +1,4 @@
-##Peg Solitaire with OOP Principles
+## Peg Solitaire with OOP Principles
 
 When the program is started, a menu will be seen.
 
