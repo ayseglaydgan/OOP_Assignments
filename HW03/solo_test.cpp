@@ -6,6 +6,10 @@
 
 using namespace std;
 
+//assigned before an object created because its static value
+int PegSolitaire::game_count = 0;
+int PegSolitaire::active_game_count = 0;
+
 //if the type of the board is not indicated, create board 4
 // if default consturctor used, play as computer
 PegSolitaire::PegSolitaire()
@@ -73,6 +77,7 @@ PegSolitaire::PegSolitaire(const int &_board_type, const int &_player_type)
     game_count++;
     active_game_count++;
 }
+
 
 //Saved or Loaded Board can be bigger than implamentation
 // So, take the longest line when detecting the size of the board

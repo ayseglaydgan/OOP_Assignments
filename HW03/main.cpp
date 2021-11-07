@@ -13,11 +13,6 @@ void comparePegs(const vector<PegSolitaire> &games);
 
 bool isCinFail();
 
-
-//assigned before an object created because its static value
-int PegSolitaire::game_count = 0;
-int PegSolitaire::active_game_count = 0;
-
 int main()
 {
     cout << "Welcome to Peg Solitaire!" << endl;
@@ -162,6 +157,7 @@ void continueGame(PegSolitaire& game)
     }
 
     game.printBoard();
+    
 }
 
 
