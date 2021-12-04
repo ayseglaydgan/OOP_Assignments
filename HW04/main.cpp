@@ -3,16 +3,12 @@
 #include "DayOfYearSet.h"
 
 using namespace std;
+// use own namespace
+using namespace Aysegul_DayOfYearSet;
 
-// factorial
-int factorial(int n) {
-    if (n == 0) {
-        return 1;
-    }
-    return n * factorial(n - 1);
-}
 
 int main()
 {
     cout << "Domates" << endl;
+    DayOfYearSet set;
 }
