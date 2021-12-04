@@ -102,7 +102,7 @@ class DayOfYearSet::DayOfYear {
 
     private:
         int day;
-        int month;
+        decltype(day) month;
 
         // active dayofyear count
         static int activeCount;

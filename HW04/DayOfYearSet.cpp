@@ -167,7 +167,7 @@ ostream& operator<<(ostream& os, const DayOfYearSet& set)
     for (int i = 0; i < set.size(); i++)
     {
         const DayOfYearSet::DayOfYear temp = set[i];
-        os << temp << endl;
+       os << temp.getDay() << "/" << temp.getMonth() << endl;
     }
     return os;
 }
@@ -179,7 +179,11 @@ istream& operator>>(istream& is, DayOfYearSet& set)
     for (int i = 0; i < set.size(); i++)
     {
         DayOfYearSet::DayOfYear temp = set[i];
-        is >> temp;
+        int day, month;
+        is >> day >> month;
+        temp.setDay(day);
+        temp.setMonth(month);
+        set[i] = temp;
     }
     return is;
 }
@@ -331,7 +335,7 @@ bool DayOfYearSet::contains(const DayOfYear& day) const
     }
 
     // find the day in the array
-    int index = this->find(day);
+    auto index = this->find(day);
 
     // check if the day is found
     if (index == -1)
