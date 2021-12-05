@@ -77,6 +77,7 @@ class DayOfYearSet::DayOfYear {
     public:
         // default constructor
         DayOfYear();
+        ~DayOfYear();
         DayOfYear(int day, int month);
 
 
@@ -97,20 +98,19 @@ class DayOfYearSet::DayOfYear {
         bool operator==(const DayOfYear& rhs) const;
         bool operator!=(const DayOfYear& rhs) const;
 
-        // overload unary ! operator
-        DayOfYear operator!() const;
 
     private:
         int day;
         decltype(day) month;
 
-        // active dayofyear count
+        // active day of year count
         static int activeCount;
 
 };
 
 // inline setters getters
 inline int DayOfYearSet::size() const { return this->sizeArray; }
+inline int DayOfYearSet::getActiveDaysOfYear() { return DayOfYear::getActiveDaysOfYear(); }
 
 inline int DayOfYearSet::DayOfYear::getDay() const {return day;}
 inline int DayOfYearSet::DayOfYear::getMonth() const {return month;}

@@ -1,0 +1,158 @@
+g++ -std=c++11 main.cpp DayOfYearSet.cpp  -o output
+./output
+--------------------- Welcome to DayOfYearSet Test File ---------------------
+Test 1 - Constructors
+Test default constructor print result set1: Size: 0
+
+Add some days and print
+Size: 6
+1/5
+15/10
+25/5
+3/8
+27/8
+6/5
+
+Test copy constructor print result set2: Size: 6
+1/5
+15/10
+25/5
+3/8
+27/8
+6/5
+
+Create a vector and use it with constructor
+Test vector constructor print result: set3: Size: 5
+1/5
+15/10
+25/5
+3/8
+27/8
+
+Test copy assignment operator print result set4: Size: 6
+1/5
+15/10
+25/5
+3/8
+27/8
+6/5
+
+Test add remove methods
+Use first set. First print set1 again. After remove some days and print
+Before remove
+Size: 6
+1/5
+15/10
+25/5
+3/8
+27/8
+6/5
+
+After remove
+Size: 2
+27/8
+6/5
+
+Test add method. Add new days
+After add
+Size: 4
+27/8
+6/5
+23/5
+19/12
+
+Use index operator
+set1[0] = 27/8
+set1[1] = 6/5
+Test + - ^ ! operators on set1 and set2
+set1:Size: 4
+27/8
+6/5
+23/5
+19/12
+
+set2:Size: 6
+1/5
+15/10
+25/5
+3/8
+27/8
+6/5
+
+Test + operator
+set1 + set2 = Size: 8
+27/8
+6/5
+23/5
+19/12
+1/5
+15/10
+25/5
+3/8
+
+Test - operator 
+set1 - set2 = Size: 2
+23/5
+19/12
+
+Test ^ operator
+set1 ^ set2 = Size: 2
+27/8
+6/5
+
+Test unary ! operator
+!set1 (I prefer dont print because it is too long) = 
+Show active DayOfYear Count
+Active DayCount = 7
+Show active DayOfYear Count with some changes
+Active DaysCount = 7
+Test call by value and call by reference functions
+set1: Size: 4
+27/8
+6/5
+23/5
+19/12
+
+set2: Size: 6
+1/5
+15/10
+25/5
+3/8
+27/8
+6/5
+
+d1: Size: 4
+27/8
+6/5
+23/5
+19/12
+
+d2: Size: 6
+1/5
+15/10
+25/5
+3/8
+27/8
+6/5
+
+d1 == d2: 0
+d1 != d2: 1
+d1: Size: 4
+27/8
+6/5
+23/5
+19/12
+
+d2: Size: 6
+1/5
+15/10
+25/5
+3/8
+27/8
+6/5
+
+d1 == d2: 0
+d1 != d2: 1
+De Morgan Rule
+Those tests are too long, so I write results to deMorganRule.txt
+--------------------- End of DayOfYearSet Test File ---------------------

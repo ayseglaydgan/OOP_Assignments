@@ -5,7 +5,8 @@
 #include "DayOfYearSet.h"
 
 using namespace std;
-using namespace Aysegul_DayOfYearSet;
+namespace Aysegul_DayOfYearSet
+{
 
 // nicely initialized
 int DayOfYearSet::DayOfYear::activeCount = 0;
@@ -33,9 +34,9 @@ DayOfYearSet::DayOfYearSet(int size)
 DayOfYearSet::DayOfYearSet(vector<DayOfYear>& days)
 {
     // initialize the dynamic array
-    dayOfYearArray = new DayOfYear[days.size()];
+    dayOfYearArray = new DayOfYear[days.size() + 10];
     this->sizeArray = days.size();
-    this->capacity = days.size();
+    this->capacity = days.size() + 10;
 
     // copy the vector to the array
     for (int i = 0; i < days.size(); i++)
@@ -49,9 +50,9 @@ DayOfYearSet::DayOfYearSet(vector<DayOfYear>& days)
 DayOfYearSet::DayOfYearSet(const DayOfYearSet& other)
 {
     // initialize the dynamic array
-    dayOfYearArray = new DayOfYear[other.sizeArray];
+    dayOfYearArray = new DayOfYear[other.sizeArray + 10];
     this->sizeArray = other.sizeArray;
-    this->capacity = other.capacity;
+    this->capacity = other.capacity + 10;
 
     // copy the array
     for (int i = 0; i < other.sizeArray; i++)
@@ -60,7 +61,7 @@ DayOfYearSet::DayOfYearSet(const DayOfYearSet& other)
     }
 }
 
-// overload assignemnt operator
+// overload assignment operator
 DayOfYearSet& DayOfYearSet::operator=(const DayOfYearSet& other)
 {
     // check if the object is not the same
@@ -96,7 +97,6 @@ void DayOfYearSet::add(const DayOfYear& day)
     // check if contains return
     if (contains(day))
     {
-        cerr << "Day already exists" << endl;
         return;
     }
 
@@ -163,12 +163,15 @@ void DayOfYearSet::remove(const DayOfYear& day)
 // ostream overload
 ostream& operator<<(ostream& os, const DayOfYearSet& set)
 {
+    os << "Size: " << set.size() << endl;
+    
     // print the array
     for (int i = 0; i < set.size(); i++)
     {
         const DayOfYearSet::DayOfYear temp = set[i];
        os << temp.getDay() << "/" << temp.getMonth() << endl;
     }
+    
     return os;
 }
 
@@ -228,7 +231,7 @@ bool DayOfYearSet::operator!=(const DayOfYearSet& other) const
     return false;
 }
 
-// overload binary + opeator
+// overload binary + operator
 DayOfYearSet DayOfYearSet::operator+(const DayOfYearSet& other) const
 {
     // create a new array
@@ -298,14 +301,21 @@ DayOfYearSet DayOfYearSet::operator^(const DayOfYearSet& other) const
 DayOfYearSet DayOfYearSet::operator!() const
 {
     // create a new array
-    DayOfYearSet newSet(this->sizeArray);
+    DayOfYearSet newSet(365 - this->sizeArray);
 
-    // copy the array
-    for (int i = 0; i < this->sizeArray; i++)
+    // copy the compliemnt of the array
+    for (int i = 0; i < 12; i++)
     {
-        DayOfYearSet::DayOfYear temp = !this->dayOfYearArray[i];
-        newSet.add(temp);
+        for (int j = 0; j < 30; j++)
+        {
+            DayOfYear temp(j + 1, i + 1);
+            if (!this->contains(temp))
+            {
+                newSet.add(temp);
+            }
+        }
     }
+    
 
     // return the new set
     return newSet;
@@ -375,9 +385,9 @@ int DayOfYearSet::find(const DayOfYear& day) const
 // default constructor
 DayOfYearSet::DayOfYear::DayOfYear()
 {
-    this->day = 0;
-    this->month = 0;
-    // initialize the active count
+    this->day = 1;
+    this->month = 1;
+
     activeCount++;
 }
 
@@ -385,24 +395,13 @@ DayOfYearSet::DayOfYear::DayOfYear(int day, int month)
 {
     this->day = day;
     this->month = month;
+    
     this->activeCount++;
 }
 
-// overload print stream operator
-std::ostream& operator<<(std::ostream& os, const DayOfYearSet::DayOfYear& dayOfYear)
+DayOfYearSet::DayOfYear::~DayOfYear()
 {
-    os << dayOfYear.getDay() << "/" << dayOfYear.getMonth();
-    return os;
-}
-
-// overload istream operator
-std::istream& operator>>(std::istream& is, DayOfYearSet::DayOfYear& dayOfYear)
-{
-    int day, month, year;
-    is >> day >> month >> year;
-    dayOfYear.setDay(day);
-    dayOfYear.setMonth(month);
-    return is;
+    this->activeCount--;
 }
 
 // overload == operator
@@ -417,17 +416,4 @@ bool DayOfYearSet::DayOfYear::operator!=(const DayOfYearSet::DayOfYear& other) c
     return (this->day != other.day || this->month != other.month);
 }
 
-// overload ! operator
-// remove from 365 days
-DayOfYearSet::DayOfYear DayOfYearSet::DayOfYear::operator!() const
-{
-
-    int totalDay = day + month * 30;
-
-    int newMonth = totalDay / 30;
-    int newDay = totalDay % 30;
-
-    // return the new day
-    return DayOfYear(newDay, newMonth);
 }
-
