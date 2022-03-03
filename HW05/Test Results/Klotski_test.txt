@@ -1,0 +1,48 @@
+g++ -std=c++11 main.cpp BoardGame2d.cpp PegSolitaire.cpp EightPuzzle.cpp Klotski.cpp -o output
+./output
+****************************************
+Welcome to Klotski test!
+****************************************
+Test board score function
+Expected: -1 (since my boardScore functions returns -1 if game is not finished)
+Actual: -1
+
+Test end game function
+Expected: 0 (false) (since my endGame functions returns false if game is not finished)
+Actual: 0
+
+Test print function
+This test will clear terminal window. So when you press any key. It will executed
++---+---+---+---+
+| a | * | * | b |
+| c | * | * | d |
+| k | e | f | l |
+| k | g | h | l |
+| i |   |   | j |
++---+       +---+
+
+Test overloaded << operator function
+This test will clear terminal window. So when you press any key. It will executed
++---+---+---+---+
+| a | * | * | b |
+| c | * | * | d |
+| k | e | f | l |
+| k | g | h | l |
+| i |   |   | j |
++---+       +---+
+
+
+Test print finish message function
+This function is different for all games.
+Expected: You won message!
+Actual: Congratulations! You won the game!
+You made 0 moves.
+Your score is equal to your move count.
+
+I will not test playUser(command), playUser(), playAuto(), playAutoAll() functions
+Because they can easily tested in playVector testing function
+
+Thanks for using this test
+****************************************
+Have a good day sir!
+****************************************

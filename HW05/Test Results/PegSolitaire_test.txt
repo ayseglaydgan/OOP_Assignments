@@ -1,0 +1,50 @@
+g++ -std=c++11 main.cpp BoardGame2d.cpp PegSolitaire.cpp EightPuzzle.cpp Klotski.cpp -o output
+./output
+****************************************
+Welcome to PegSolitaire test!
+****************************************
+Test board score function
+Expected: -1 (since my boardScore functions returns -1 if game is not finished)
+Actual: -1
+
+Test end game function
+Expected: 0 (false) (since my endGame functions returns false if game is not finished)
+Actual: 0
+
+Test print function
+This test will clear terminal window. So when you press any key. It will executed
+  abcdefg
+1   PPP  
+2   PPP  
+3 PPPPPPP
+4 PPP.PPP
+5 PPPPPPP
+6   PPP  
+7   PPP  
+
+Test overloaded << operator function
+This test will clear terminal window. So when you press any key. It will executed
+  abcdefg
+1   PPP  
+2   PPP  
+3 PPPPPPP
+4 PPP.PPP
+5 PPPPPPP
+6   PPP  
+7   PPP  
+
+
+Test print finish message function
+This function is different for all games.
+Expected: You won message!
+Actual: Congratulations! You won the game!
+You have completed the game in 0 moves.
+Your score (Remaining Peg):-1
+
+I will not test playUser(command), playUser(), playAuto(), playAutoAll() functions
+Because they can easily tested in playVector testing function
+
+Thanks for using this test
+****************************************
+Have a good day sir!
+****************************************

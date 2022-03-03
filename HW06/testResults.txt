@@ -1,0 +1,287 @@
+g++ -std=c++11 main.cpp -o output
+./output
+Welcome to GTU Collection Test
+==========================================================
+==========================================================
+First, fill vector, set and array with {1,2,3,4,5,6,7,8,9,10}
+After that test common iterable functions
+GTUVECTOR
+Size: 10
+Empty: 0
+Begin: 1
+End: 10
+Cbegin: 1
+Cend: 10
+After clear
+Size: 0
+GTUSET
+Size: 10
+Empty: 0
+Begin: 1
+End: 10
+Cbegin: 1
+Cend: 10
+After clear
+Size: 0
+GTUARRAY
+Size: 10
+Empty: 0
+Begin: 1
+End: 10
+Cbegin: 1
+Cend: 10
+After clear
+Size: 0
+==========================================================
+Also test with strings
+Initialize with {"Aysegul", "Gul", "Gtu", "CSE"}
+GTUVECTOR
+Size: 4
+Empty: 0
+Begin: Aysegul
+End: CSE
+Cbegin: Aysegul
+Cend: CSE
+After clear
+Size: 0
+GTUSET
+Size: 4
+Empty: 0
+Begin: Aysegul
+End: CSE
+Cbegin: Aysegul
+Cend: CSE
+After clear
+Size: 0
+GTUARRAY
+Size: 4
+Empty: 0
+Begin: Aysegul
+End: CSE
+Cbegin: Aysegul
+Cend: CSE
+After clear
+Size: 0
+==========================================================
+Test vector functions
+First test for int
+Add 11
+Size: 11
+[] operator
+vec[0]: 1
+vec[1]: 2
+vec[2]: 3
+Last item: 11
+==========================================================
+Second test for string
+Add "C++"
+Size: 5
+[] operator
+vec[0]: Aysegul
+vec[1]: Gul
+vec[2]: GTU
+Last item: C++
+==========================================================
+Test set functions
+First test for int
+Add 11
+Size: 11
+Try adding an existing item
+Size: 11
+Intersection
+Create a new set that contains {1,2,3,4,5,6,7,8,9}
+Intersection of set and set2
+Printing intersection
+1 2 3 4 5 6 7 8 9 10 
+Union
+Create a new set that contains {1,2,3,4,5,6,7,8,9,10,11}
+Union of set and set3
+Printing union
+1 2 3 4 5 6 7 8 9 
+Remove [Delete]
+Remove 1
+Printing set
+2 3 4 5 6 7 8 9 10 
+==========================================================
+Second test for string
+Add "C++"
+Size: 5
+Try adding an existing item
+Size: 5
+Intersection
+Create a new set that contains {"Aysegul", "Gul", "GTU"}
+Intersection of set and set2
+Size: 4
+Printing intersection
+Aysegul Gul GTU 
+Union
+Create a new set that contains {"Aysegul", "Gul", "GTU", "CSE", "C++"}
+Union of set and set3
+Printing union
+Aysegul Gul GTU 
+Remove [Delete]
+Remove "Aysegul"
+Printing set
+Gul GTU CSE 
+==========================================================
+Test array functions
+First test for int
+Using an arr that contains {1,2,3,4}
+Size: 4
+[] operator
+arr[0]: 1
+arr[1]: 2
+arr[2]: 3
+Last item: 4
+at
+arr.at(0): 1
+arr.at(1): 2
+front
+arr.front(): 1
+back
+arr.back(): 4
+fill
+Fill with 6
+Printing arr
+6 6 6 6 
+data
+data[0]: 6
+max_size:4
+==========================================================
+Second test for string
+Using an array that contains {Aysegul, Gul, GTU, CSE}
+Size: 4
+[] operator
+arr[0]: Aysegul
+arr[1]: Gul
+arr[2]: GTU
+Last item: CSE
+at
+arr.at(0): Aysegul
+arr.at(1): Gul
+front
+arr.front(): Aysegul
+back
+arr.back(): CSE
+fill
+Fill with "C++"
+Printing arr
+C++ C++ C++ C++ 
+data
+data[0]: C++
+max_size:4
+==========================================================
+Test some expections
+Create a new vector, set and array that contains {1,2,3,4,5,6}
+Try using [7] (invalid index) for vector
+vector[7]: Exception: Index out of range
+Try using [7] (invalid index) for array
+set[7]: Exception: Index out of range
+Try at function (at(7)) for array
+arr.at(7): Exception: Index out of range
+Try accesing front and back of null array and data
+arr2.front(): Exception: Array is empty
+Exception: Array is empty
+arr2.back(): Exception: Array is empty
+Try initializing 0 sized array with bigger list
+Exception: Initializer list size is bigger than array size
+Try empty set intersection and union
+Exception: Empty Set
+Exception: Empty Set
+Try accesing begin, end, cbegin, cend iterator of null set
+Exception: Empty Iterable
+Exception: Empty Iterable
+Exception: Empty Iterable
+Exception: Empty Iterable
+==========================================================
+Test some STL functions
+First test for int
+Create vector, set and array that contains {1,5,7,4,2,17,15,18,10,20}
+Test Vector
+Content of iterable: 
+begin():1
+end(): 20
+1 5 7 4 2 17 15 18 10 20 
+std::sort applied to iterable
+Content of iterable after std::sort: 
+1 2 4 5 7 10 15 17 18 20 
+std::find applied to iterable
+find(5): 5
+find(999) (not in the list - it will give last item): 20
+std::for_each applied to iterable
+changeValueTo20 func appliedContent of iterable after std::for_each: 
+20 20 20 20 20 20 20 20 20 20 
+==========================================================
+Test Set
+Content of iterable: 
+begin():1
+end(): 20
+1 5 7 4 2 17 15 18 10 20 
+std::sort applied to iterable
+Content of iterable after std::sort: 
+1 2 4 5 7 10 15 17 18 20 
+std::find applied to iterable
+find(5): 5
+find(999) (not in the list - it will give last item): 20
+std::for_each applied to iterable
+changeValueTo20 func appliedContent of iterable after std::for_each: 
+20 20 20 20 20 20 20 20 20 20 
+==========================================================
+Test Array
+Content of iterable: 
+begin():1
+end(): 20
+1 5 7 4 2 17 15 18 10 20 
+std::sort applied to iterable
+Content of iterable after std::sort: 
+1 2 4 5 7 10 15 17 18 20 
+std::find applied to iterable
+find(5): 5
+find(999) (not in the list - it will give last item): 20
+std::for_each applied to iterable
+changeValueTo20 func appliedContent of iterable after std::for_each: 
+20 20 20 20 20 20 20 20 20 20 
+==========================================================
+Second test for string
+Create vector, set and array that contains {"Aysegul", "Gul", "CSE", "YSA"}
+Test Vector
+Content of iterable: 
+Aysegul Gul CSE YSA 
+std::sort applied to iterable
+Content of iterable after std::sort: 
+Aysegul CSE Gul YSA 
+std::find applied to iterable
+find(CSE): CSE
+find(MTU) (not in the list - it will give last item): YSA
+std::for_each applied to iterable
+changeValueToStringYSA func appliedContent of iterable after std::for_each: 
+YSA YSA YSA YSA 
+==========================================================
+Test Set
+Content of iterable: 
+Aysegul Gul CSE YSA 
+std::sort applied to iterable
+Content of iterable after std::sort: 
+Aysegul CSE Gul YSA 
+std::find applied to iterable
+find(CSE): CSE
+find(MTU) (not in the list - it will give last item): YSA
+std::for_each applied to iterable
+changeValueToStringYSA func appliedContent of iterable after std::for_each: 
+YSA YSA YSA YSA 
+==========================================================
+Test Array
+Content of iterable: 
+Aysegul Gul CSE YSA 
+std::sort applied to iterable
+Content of iterable after std::sort: 
+Aysegul CSE Gul YSA 
+std::find applied to iterable
+find(CSE): CSE
+find(MTU) (not in the list - it will give last item): YSA
+std::for_each applied to iterable
+changeValueToStringYSA func appliedContent of iterable after std::for_each: 
+YSA YSA YSA YSA 
+==========================================================
+Test is finished
+Goodbye

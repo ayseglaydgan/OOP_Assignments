@@ -1,0 +1,184 @@
+g++ -std=c++11 main.cpp BoardGame2d.cpp PegSolitaire.cpp EightPuzzle.cpp Klotski.cpp -o output
+./output
+****************************************
+Welcome to 6 game in a row test!
+Each game will appear. Order is: Peg - Peg - EightPuzzle - EightPuzzle - Klotski - Klotski
+****************************************
+------------------------------------------------------
+	You are playing PegSolitaire now
+------------------------------------------------------
+  abcdefg
+1   PPP  
+2   PPP  
+3 PPPPPPP
+4 PPP.PPP
+5 PPPPPPP
+6   PPP  
+7   PPP  
+Do you want to play yourself or computer?
+1- Yourself
+2- Computer
+Choice:
+Press 1 to see result one by one.
+Other keys will show the final result directly
+You will see resulted board in 3 seconds
+You will see resulted board in 2 seconds
+You will see resulted board in 1 seconds
+  abcdefg
+1   ..P  
+2   P..  
+3 .......
+4 .......
+5 ....P.P
+6   ...  
+7   P..  
+Congratulations! You won the game!
+You have completed the game in 27 moves.
+Your score (Remaining Peg):5
+------------------------------------------------------
+	You are playing PegSolitaire now
+------------------------------------------------------
+  abcdefg
+1   PPP  
+2   PPP  
+3 PPPPPPP
+4 PPP.PPP
+5 PPPPPPP
+6   PPP  
+7   PPP  
+Do you want to play yourself or computer?
+1- Yourself
+2- Computer
+Choice:
+Press 1 to see result one by one.
+Other keys will show the final result directly
+You will see resulted board in 3 seconds
+You will see resulted board in 2 seconds
+You will see resulted board in 1 seconds
+  abcdefg
+1   ...  
+2   ..P  
+3 P......
+4 .......
+5 ..P....
+6   ...  
+7   PPP  
+Congratulations! You won the game!
+You have completed the game in 26 moves.
+Your score (Remaining Peg):6
+------------------------------------------------------
+	You are playing EightPuzzle now
+------------------------------------------------------
++---+---+---+
+| 5 | 8 | 2 |
++---+---+---+
+|   | 1 | 4 |
++---+---+---+
+| 3 | 6 | 7 |
++---+---+---+
+Do you want to play yourself or computer?
+1- Yourself
+2- Computer
+Choice:
+Press 1 to see result one by one.
+Other keys will show the final result directly
+You will see resulted board in 3 seconds
+You will see resulted board in 2 seconds
+You will see resulted board in 1 seconds
++---+---+---+
+| 1 | 2 | 3 |
++---+---+---+
+| 4 | 5 | 6 |
++---+---+---+
+| 7 | 8 |   |
++---+---+---+
+Congratulations! You won the game!
+You made 274781 moves.
+Your score is equal to your move count.
+------------------------------------------------------
+	You are playing EightPuzzle now
+------------------------------------------------------
++---+---+---+
+| 8 | 1 | 3 |
++---+---+---+
+| 2 |   | 7 |
++---+---+---+
+| 4 | 6 | 5 |
++---+---+---+
+Do you want to play yourself or computer?
+1- Yourself
+2- Computer
+Choice:
+Press 1 to see result one by one.
+Other keys will show the final result directly
+You will see resulted board in 3 seconds
+You will see resulted board in 2 seconds
+You will see resulted board in 1 seconds
++---+---+---+
+| 1 | 2 | 3 |
++---+---+---+
+| 4 | 5 | 6 |
++---+---+---+
+| 7 | 8 |   |
++---+---+---+
+Congratulations! You won the game!
+You made 496754 moves.
+Your score is equal to your move count.
+------------------------------------------------------
+	You are playing Klotski now
+------------------------------------------------------
++---+---+---+---+
+| a | * | * | b |
+| c | * | * | d |
+| k | e | f | l |
+| k | g | h | l |
+| i |   |   | j |
++---+       +---+
+Do you want to play yourself or computer?
+1- Yourself
+2- Computer
+Choice:
+Press 1 to see result one by one.
+Other keys will show the final result directly
+You will see resulted board in 3 seconds
+You will see resulted board in 2 seconds
+You will see resulted board in 1 seconds
++---+---+---+---+
+| c | a | e | f |
+| k | d | j | b |
+| k |   |   | l |
+| g | * | * | l |
+| h | * | * | i |
++---+       +---+
+Congratulations! You won the game!
+You made 5934 moves.
+Your score is equal to your move count.
+------------------------------------------------------
+	You are playing Klotski now
+------------------------------------------------------
++---+---+---+---+
+| a | * | * | b |
+| c | * | * | d |
+| k | e | f | l |
+| k | g | h | l |
+| i |   |   | j |
++---+       +---+
+Do you want to play yourself or computer?
+1- Yourself
+2- Computer
+Choice:
+Press 1 to see result one by one.
+Other keys will show the final result directly
+You will see resulted board in 3 seconds
+You will see resulted board in 2 seconds
+You will see resulted board in 1 seconds
++---+---+---+---+
+| f | h | g | i |
+| k | b | d | a |
+| k | j | e | l |
+|   | * | * | l |
+|   | * | * | c |
++---+       +---+
+Congratulations! You won the game!
+You made 15750 moves.
+Your score is equal to your move count.
